@@ -1,0 +1,20 @@
+{
+  "name": "Inspección Andén Reefer",
+  "short_name": "Inspección Reefer",
+  "description": "Formulario de inspección de andén reefer con soporte offline",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e8eef7",
+  "theme_color": "#1a3a5c",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
