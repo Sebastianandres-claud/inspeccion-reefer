@@ -1592,7 +1592,7 @@ function registrarServiceWorker() {
   navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('SW:', e));
 }
 
-// ─── TOAST ────────────────────────────────────────────────────────────────
+// ─── TOAST ──────────────────────────────────────────────────────────────//──
 function mostrarToast(msg, tipo) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast visible ' + tipo;
