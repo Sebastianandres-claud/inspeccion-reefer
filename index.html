@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#002D5B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Inspección de Andén Reefer</title>
+<style>
+  :root {
+    --azul:         #002D5B;
+    --azul-medio:   #004A8F;
+    --azul-claro:   #E8F0FA;
+    --naranja:      #E8500A;
+    --naranja-claro:#FEF0EA;
+    --verde:        #1A7A4A;
+    --verde-claro:  #E8F5EE;
+    --rojo:         #C0392B;
+    --gris-oscuro:  #374151;
+    --gris:         #5A6472;
+    --gris-claro:   #F4F6F9;
+    --blanco:       #ffffff;
+    --borde:        #D1D9E6;
+    --sombra:       0 1px 4px rgba(0,45,91,0.10);
+    --radio:        6px;
+    --radio-sm:     4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #EEF2F7;
+    color: #1A2332;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .header {
+    background: var(--azul);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-right: 1px solid rgba(255,255,255,0.10);
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--naranja);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand-mark svg { display: block; }
+
+  .brand-text {
+    line-height: 1.2;
+  }
+  .brand-text .company {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .brand-text .title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.2px;
+  }
+
+  .header-meta {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 16px;
+  }
+
+  .header-date {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.3px;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(255,255,255,0.75);
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  .status-dot.offline { background: #f87171; animation: none; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+  }
+
+  /* PROGRESS */
+  .header-progress {
+    padding: 0 20px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    height: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: #4ade80;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .storage-bar-wrap {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.4);
+    padding: 0 20px 8px;
+    display: none;
+  }
+  .storage-bar-track {
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    height: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+  .storage-bar-fill {
+    height: 100%;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .storage-bar-fill.warn   { background: var(--naranja); }
+  .storage-bar-fill.danger { background: #f87171; }
+
+  /* ── BANNERS ─────────────────────────────────────────── */
+  .cola-banner {
+    background: var(--naranja-claro);
+    border-left: 3px solid var(--naranja);
+    padding: 10px 20px;
+    font-size: 0.78rem;
+    color: #7c3a1a;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.1px;
+  }
+  .cola-banner.visible { display: flex; }
+  .cola-banner::before {
+    content: '';
+    width: 14px; height: 14px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E") center/contain no-repeat;
+    flex-shrink: 0;
+  }
+
+  .install-banner {
+    background: var(--azul-claro);
+    border-left: 3px solid var(--azul-medio);
+    padding: 12px 20px;
+    font-size: 0.78rem;
+    color: #1e3a5f;
+    display: none;
+  }
+  .install-banner.visible { display: block; }
+  .install-banner strong  { display: block; margin-bottom: 3px; font-size: 0.82rem; }
+  .install-banner button {
+    margin-top: 8px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: var(--radio-sm);
+    background: var(--azul-medio);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.78rem;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── LAYOUT ──────────────────────────────────────────── */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* ── DATOS DEL INSPECTOR ─────────────────────────────── */
+  .inspector-card {
+    background: white;
+    border-radius: var(--radio);
+    padding: 0;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--borde);
+    overflow: hidden;
+  }
+  .inspector-card-header {
+    background: var(--azul);
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .inspector-card-header h2 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.75);
+  }
+  .inspector-card-body {
+    padding: 18px;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 480px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gris);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="datetime-local"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-sm);
+    font-size: 0.88rem;
+    font-family: inherit;
+    background: var(--gris-claro);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    color: #1A2332;
+    appearance: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--azul-medio);
+    box-shadow: 0 0 0 3px rgba(0,74,143,0.10);
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 78px; }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A6472' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+
+  /* ── COLA PANEL ──────────────────────────────────────── */
+  .cola-panel {
+    background: white;
+    border-radius: var(--radio);
+    margin-bottom: 20px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--borde);
+    border-left: 3px solid var(--naranja);
+    overflow: hidden;
+    display: none;
+  }
+  .cola-panel.visible { display: block; }
+  .cola-panel-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--borde);
+    background: var(--gris-claro);
+  }
+  .cola-panel h2 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gris);
+  }
+  .cola-panel-body { padding: 12px 16px; }
+  .cola-panel-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    border-top: 1px solid var(--borde);
+    background: var(--gris-claro);
+  }
+  .btn-cola {
+    padding: 8px 14px;
+    border-radius: var(--radio-sm);
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .btn-cola-enviar  { background: var(--verde); color: white; }
+  .btn-cola-nueva   { background: var(--azul-claro); color: var(--azul); border: 1px solid var(--borde); }
+  .btn-cola-borrar {
+    background: #fef2f2;
+    color: var(--rojo);
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    border-radius: var(--radio-sm);
+    border: 1px solid #fecaca;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-cola-abrir {
+    background: var(--azul-claro);
+    color: var(--azul-medio);
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    border-radius: var(--radio-sm);
+    border: 1px solid var(--borde);
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .btn-cola-abrir:hover { background: var(--azul-medio); color: white; }
+  .item-cola-label { flex: 1; color: #374151; }
+  .item-cola-btns  { display: flex; gap: 6px; flex-shrink: 0; }
+  .panel-seccion-titulo {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gris);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  /* ── SECCIONES ───────────────────────────────────────── */
+  .seccion {
+    background: white;
+    border-radius: var(--radio);
+    margin-bottom: 10px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--borde);
+    overflow: hidden;
+  }
+
+  .seccion.completada {
+    border-left: 3px solid var(--verde);
+  }
+  .seccion.completada .seccion-num { background: var(--verde); }
+
+  .seccion-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: white;
+    border-bottom: 1px solid var(--borde);
+  }
+  .seccion-num {
+    background: var(--azul);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+  .seccion-titulo { flex: 1; }
+  .seccion-titulo h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--azul);
+    letter-spacing: 0.1px;
+  }
+
+  .seccion-body { padding: 16px 18px; }
+
+  .seccion-descripcion {
+    background: #f8faff;
+    border-left: 3px solid var(--borde);
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--gris);
+    line-height: 1.65;
+    border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+    margin-bottom: 16px;
+  }
+
+  /* ── ESTADO ──────────────────────────────────────────── */
+  .campo-estado { margin-bottom: 0; }
+  .campo-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--gris);
+    margin-bottom: 8px;
+  }
+  .opciones-estado {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .opcion-estado {
+    padding: 10px 6px;
+    border: 1.5px solid var(--borde);
+    border-radius: var(--radio-sm);
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: all 0.15s;
+    background: var(--gris-claro);
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 1.3;
+  }
+  .opcion-estado:hover { border-color: var(--azul-medio); background: var(--azul-claro); color: var(--azul); }
+  .opcion-estado.seleccionada.conforme    { border-color: var(--verde); background: var(--verde-claro); color: var(--verde); }
+  .opcion-estado.seleccionada.no-conforme { border-color: var(--rojo); background: #fef2f2; color: var(--rojo); }
+  .opcion-estado.seleccionada.no-aplica   { border-color: var(--gris); background: #f1f3f5; color: var(--gris); }
+
+  /* ── SEPARADOR ───────────────────────────────────────── */
+  .separador { height: 1px; background: var(--borde); margin: 16px 0; }
+
+  /* ── FOTOS ───────────────────────────────────────────── */
+  .campo-fotos { margin-top: 0; }
+  .fotos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .foto-preview {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radio-sm);
+    overflow: hidden;
+    background: var(--gris-claro);
+    border: 1.5px solid var(--borde);
+  }
+  .foto-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .foto-eliminar {
+    position: absolute;
+    top: 4px; right: 4px;
+    background: rgba(192,57,43,0.90);
+    color: white;
+    border: none;
+    border-radius: 2px;
+    width: 20px; height: 20px;
+    font-size: 0.65rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .btn-agregar-foto {
+    aspect-ratio: 1;
+    border: 1.5px dashed var(--borde);
+    border-radius: var(--radio-sm);
+    background: white;
+    color: var(--gris);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    transition: all 0.15s;
+    min-height: 80px;
+    padding: 8px;
+    text-align: center;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-agregar-foto:hover { border-color: var(--azul-medio); background: var(--azul-claro); color: var(--azul-medio); }
+  .btn-agregar-foto svg { flex-shrink: 0; }
+  input[type="file"] { display: none; }
+
+  /* ── OBSERVACIONES ───────────────────────────────────── */
+  .campo-obs { margin-top: 0; }
+
+  /* ── FOOTER ACCIONES ─────────────────────────────────── */
+  .footer-acciones {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid var(--borde);
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+    z-index: 100;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px 10px;
+    border-radius: var(--radio-sm);
+    border: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-guardar { background: var(--azul-medio); color: white; }
+  .btn-guardar:hover { background: var(--azul); }
+  .btn-enviar  { background: var(--azul); color: white; }
+  .btn-enviar:hover { background: #001E3D; }
+  .btn-enviar:disabled { background: #9ca3af; cursor: not-allowed; }
+  .btn-exportar { background: var(--gris-claro); color: var(--azul); border: 1px solid var(--borde); flex: 0.65; }
+  .btn-exportar:hover { background: var(--azul-claro); }
+  .btn-reset { background: var(--gris-claro); color: var(--gris); border: 1px solid var(--borde); flex: 0.5; font-size: 0.72rem; }
+  .btn-reset:hover { background: var(--borde); color: var(--gris-oscuro); }
+
+  /* ── MODAL ───────────────────────────────────────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.visible { display: flex; }
+  .modal {
+    background: white;
+    border-radius: var(--radio);
+    padding: 0;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    overflow: hidden;
+  }
+  .modal-header {
+    background: var(--azul);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-header h3 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .modal-body {
+    padding: 18px 20px;
+  }
+  .modal-body p {
+    font-size: 0.82rem;
+    color: var(--gris);
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .modal-btns {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--borde);
+    background: var(--gris-claro);
+  }
+  .btn-modal-cancel {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radio-sm);
+    border: 1.5px solid var(--borde);
+    background: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .btn-modal-ok {
+    flex: 1;
+    padding: 10px;
+    border-radius: var(--radio-sm);
+    border: none;
+    background: var(--azul-medio);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .btn-modal-ok:hover { background: var(--azul); }
+
+  /* ── RESUMEN COLA ─────────────────────────────────────── */
+  .resumen-cola {
+    background: var(--gris-claro);
+    border-radius: var(--radio-sm);
+    padding: 12px;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    color: #374151;
+    border: 1px solid var(--borde);
+  }
+  .resumen-cola strong {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--azul);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .item-cola {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--borde);
+    font-size: 0.78rem;
+    gap: 8px;
+  }
+  .item-cola:last-child { border-bottom: none; }
+  .estado-cola { font-weight: 700; flex-shrink: 0; }
+  .estado-cola.pendiente { color: var(--naranja); }
+  .estado-cola.enviado   { color: var(--verde); }
+
+  /* ── TOAST ───────────────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 9px 18px;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.25s;
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .toast.visible { opacity: 1; }
+  .toast.exito   { background: var(--verde); }
+  .toast.error   { background: var(--rojo); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 11 12 14 22 4"/>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="title">Inspección Andén Reefer</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="header-date" id="fecha-header"></div>
+      <div class="status-badge">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">En línea</span>
+      </div>
+    </div>
+  </div>
+  <div class="header-progress">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-label" id="progress-label">0 / 6 secciones</div>
+  </div>
+  <div class="storage-bar-wrap" id="storage-wrap">
+    <span id="storage-text"></span>
+    <div class="storage-bar-track"><div class="storage-bar-fill" id="storage-fill"></div></div>
+  </div>
+</div>
+
+<!-- BANNERS -->
+<div class="install-banner" id="install-banner">
+  <strong id="install-titulo">Instalar aplicación</strong>
+  <span id="install-texto"></span>
+  <button type="button" id="btn-instalar" style="display:none" onclick="instalarApp()">Instalar</button>
+</div>
+
+<div class="cola-banner" id="cola-banner">
+  <span id="cola-texto">Sin conexión — la inspección se guardará localmente y se enviará al reconectar.</span>
+</div>
+
+<div class="container">
+
+  <!-- COLA PENDIENTE -->
+  <div class="cola-panel" id="cola-panel">
+    <div class="cola-panel-header">
+      <h2>Borradores y envíos</h2>
+    </div>
+    <div class="cola-panel-body">
+      <div id="cola-lista"></div>
+    </div>
+    <div class="cola-panel-actions">
+      <button type="button" class="btn-cola btn-cola-enviar" id="btn-enviar-cola" onclick="intentarEnviarCola(true)">Enviar cola</button>
+      <button type="button" class="btn-cola btn-cola-nueva" onclick="reiniciarFormulario()">Nueva inspección</button>
+    </div>
+  </div>
+
+  <!-- DATOS DEL INSPECTOR -->
+  <div class="inspector-card">
+    <div class="inspector-card-header">
+      <h2>Datos de la Inspección</h2>
+    </div>
+    <div class="inspector-card-body">
+      <div class="grid-2">
+        <div>
+          <label>Inspector</label>
+          <input type="text" id="inspector" placeholder="Nombre completo">
+        </div>
+        <div>
+          <label>Andén N°</label>
+          <input type="text" id="anden" placeholder="Ej: 22-43">
+        </div>
+        <div>
+          <label>Fecha y hora</label>
+          <input type="datetime-local" id="fecha">
+        </div>
+        <div>
+          <label>Turno</label>
+          <select id="turno">
+            <option value="">Seleccionar...</option>
+            <option>1° Turno (08:00–15:55)</option>
+            <option>2° Turno (16:00–23:55)</option>
+            <option>3° Turno (00:00–07:55)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIONES -->
+  <div id="secciones-container"></div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer-acciones">
+  <button class="btn btn-guardar" onclick="guardarBorrador()">Guardar</button>
+  <button class="btn btn-enviar" id="btn-enviar" onclick="abrirModalEnvio()">Enviar</button>
+  <button class="btn btn-exportar" onclick="exportarCSV()">CSV</button>
+  <button class="btn btn-reset" onclick="confirmarReinicio()">Nuevo</button>
+</div>
+
+<!-- MODAL ENVÍO -->
+<div class="modal-overlay" id="modal-envio">
+  <div class="modal">
+    <div class="modal-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <h3>Confirmar envío</h3>
+    </div>
+    <div class="modal-body">
+      <p>Revise el resumen antes de confirmar. No es obligatorio completar todas las secciones.</p>
+      <div class="resumen-cola" id="resumen-envio"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-modal-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-modal-ok" id="btn-confirmar-envio" onclick="enviarFormulario()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIGURACIÓN POWER AUTOMATE ─────────────────────────────────────────
+const CONFIG = {
+  POWER_AUTOMATE_URL: "https://default4c5c9cf1d6be4ebbbab55a0f831527.e6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9341e22e9cb743c2aa87572681558db9/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jVBiuODC-XGsIRYhb_1hI7b2O9Q9RlK9wTLR_t-z4nk",
+  CORREO_FIJO: "samiranda@sitrans.cl"
+};
+
+// ─── DATOS DE LAS SECCIONES ───────────────────────────────────────────────
+const SECCIONES = [
+  {
+    id: 1,
+    titulo: "Operatividad de Dispositivos de Alerta Visual (Balizas)",
+    descripcion: "La baliza es nuestro control de ingeniería crítico para la segregación y advertencia visual de energía en el andén. Queda estrictamente prohibido normalizar la falla de estos componentes.\n\nAcción: Si durante la inspección visual o la operación detectan que una baliza no funciona, se debe detener la interacción en esa zona específica y dar aviso inmediato al supervisor para su reemplazo."
+  },
+  {
+    id: 2,
+    titulo: "Protocolo de Conexión, Desconexión y Aseguramiento Mecánico",
+    descripcion: "La manipulación de los sistemas reefer involucra media/baja tensión con alta corriente, lo que expone al trabajador a riesgos de arco eléctrico y contacto directo o indirecto.\n\nToda maniobra de conexión o desconexión debe realizarse con el EPP dieléctrico mandatorio.\n\nUso de Roscas de Seguridad: Es obligatorio asegurar y ajustar por completo las roscas de fijación del enchufe. Esto garantiza el índice de protección (IP) contra la humedad o el agua, evita el desgaste por tracción mecánica y previene desconexiones accidentales."
+  },
+  {
+    id: 3,
+    titulo: "Conexiones en Niveles Superiores por Saturación de Espacio",
+    descripcion: "Cuando la capacidad del nivel está copada, la operación exige posicionar y energizar estructuras en niveles superiores o inferiores.\n\nAnte la necesidad de conectar un contenedor en nivel superior o inferior por falta de espacio en la base, es obligatorio dar aviso previo a la supervisión. Esto asegura que la maniobra cuente con la planificación de trabajo en altura física adecuada y mantenga la trazabilidad de la carga de forma segura."
+  },
+  {
+    id: 4,
+    titulo: "Detección de Tomas Desenergizadas (Enchufes sin Energía)",
+    descripcion: "Un enchufe sin suministro eléctrico no solo es una falla operacional, sino un riesgo potencial si se asume erróneamente que la línea está bloqueada o desenergizada por mantenimiento.\n\nSi al realizar una conexión se identifica que la toma no tiene energía, se debe dar aviso inmediato y levantar el reporte técnico. Reconectar el contenedor en otro enchufe para salvaguardar la cadena de frío."
+  },
+  {
+    id: 5,
+    titulo: "Housekeeping Integral: Orden y Limpieza del Andén Completo",
+    descripcion: "El estándar de orden y limpieza no es sectorizado; se evalúa a nivel de andén completo.\n\nLas vías de tránsito peatonal, las zonas de maniobra y los accesos a los tableros deben estar permanentemente despejados. Los cables deben quedar ordenados y protegidos, y no se permite la acumulación de residuos o elementos que obstruyan las rutas de evacuación.\n\nEsto también contempla los residuos de etiquetados — en cada andén hay un basurero en el primer nivel."
+  },
+  {
+    id: 6,
+    titulo: "Gestión de Condiciones Subestándares con el Área de Infraestructura",
+    descripcion: "El desgaste acelerado por el ambiente industrial y salino exige un mantenimiento preventivo riguroso de las instalaciones fijas.\n\nTodo trabajador que identifique daños mecánicos en las cajas de enchufes, sulfatación en las tomas, o deterioros estructurales en barandas, rejillas y escaleras del andén, tiene la responsabilidad de dar aviso formal e inmediato para derivar el requerimiento al área de Infraestructura.\n\nLa seguridad la hacemos visible mediante el reporte oportuno de incidentes en DataScope."
+  }
+];
+
+// ─── ESTADO GLOBAL ────────────────────────────────────────────────────────
+const estado = { secciones: {}, fotos: {}, cola: [], borradores: [] };
+let deferredInstallPrompt = null;
+let timerGuardado = null;
+
+// ─── ALMACENAMIENTO INDEXEDDB ─────────────────────────────────────────────
+const Almacen = {
+  db: null,
+  DB_NAME: 'InspeccionReeferDB',
+  DB_VERSION: 2,
+  open() {
+    return new Promise((resolve, reject) => {
+      if (this.db) return resolve(this.db);
+      const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('borrador'))   db.createObjectStore('borrador');
+        if (!db.objectStoreNames.contains('cola'))       db.createObjectStore('cola');
+        if (!db.objectStoreNames.contains('borradores')) db.createObjectStore('borradores');
+      };
+      req.onsuccess = () => { this.db = req.result; resolve(this.db); };
+      req.onerror  = () => reject(req.error);
+    });
+  },
+  async get(store, key) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx  = db.transaction(store, 'readonly');
+      const req = tx.objectStore(store).get(key);
+      req.onsuccess = () => resolve(req.result ?? null);
+      req.onerror   = () => reject(req.error);
+    });
+  },
+  async set(store, key, value) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(store, 'readwrite');
+      tx.objectStore(store).put(value, key);
+      tx.oncomplete = () => resolve();
+      tx.onerror    = () => reject(tx.error);
+    });
+  },
+  async init() {
+    await this.open();
+    if (navigator.storage?.persist) { try { await navigator.storage.persist(); } catch (_) {} }
+    await this.migrarDesdeLocalStorage();
+  },
+  async migrarDesdeLocalStorage() {
+    try {
+      const borradorLS  = localStorage.getItem('borrador_inspeccion');
+      const colaLS      = localStorage.getItem('cola_inspecciones');
+      const borradorIDB = await this.get('borrador', 'actual');
+      const colaIDB     = await this.get('cola', 'items');
+      if (borradorLS && !borradorIDB) { await this.set('borrador', 'actual', JSON.parse(borradorLS)); localStorage.removeItem('borrador_inspeccion'); }
+      if (colaLS && (!colaIDB || !colaIDB.length)) { await this.set('cola', 'items', JSON.parse(colaLS)); localStorage.removeItem('cola_inspecciones'); }
+    } catch (e) { console.warn('Migración localStorage:', e); }
+  },
+  async guardarBorrador(datos) { await this.set('borrador', 'actual', datos); },
+  async cargarBorrador()       { return this.get('borrador', 'actual'); },
+  async guardarCola(cola)      { await this.set('cola', 'items', cola); },
+  async cargarCola()           { return (await this.get('cola', 'items')) || []; },
+  async guardarListaBorradores(lista) { await this.set('borradores', 'lista', lista); },
+  async cargarListaBorradores()       { return (await this.get('borradores', 'lista')) || []; }
+};
+
+async function persistirCola() {
+  await Almacen.guardarCola(estado.cola);
+  renderizarPanel();
+  actualizarBannerCola();
+  await actualizarIndicadorAlmacen();
+}
+
+// ─── INICIALIZACIÓN ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  const ahora = new Date();
+  document.getElementById('fecha').value = ahora.toISOString().slice(0,16);
+  document.getElementById('fecha-header').textContent =
+    ahora.toLocaleDateString('es-CL', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  renderizarSecciones();
+
+  try {
+    await Almacen.init();
+    estado.cola       = await Almacen.cargarCola();
+    estado.borradores = await Almacen.cargarListaBorradores();
+    await cargarBorrador();
+    renderizarPanel();
+    await actualizarIndicadorAlmacen();
+  } catch (e) {
+    console.error('Error al iniciar almacenamiento:', e);
+    mostrarToast('No se pudo iniciar almacenamiento local', 'error');
+  }
+
+  actualizarEstadoConexion();
+  configurarInstalacionPWA();
+  registrarServiceWorker();
+
+  window.addEventListener('online',  () => { actualizarEstadoConexion(); intentarEnviarCola(false); });
+  window.addEventListener('offline', actualizarEstadoConexion);
+});
+
+// ─── RENDER SECCIONES ─────────────────────────────────────────────────────
+function renderizarSecciones() {
+  const container = document.getElementById('secciones-container');
+  container.innerHTML = SECCIONES.map(s => `
+    <div class="seccion" id="sec-${s.id}">
+      <div class="seccion-header">
+        <div class="seccion-num" id="num-${s.id}">${s.id}</div>
+        <div class="seccion-titulo">
+          <h3>${s.titulo}</h3>
+        </div>
+      </div>
+      <div class="seccion-body">
+        <div class="seccion-descripcion" id="desc-${s.id}">${s.descripcion.replace(/\n/g,'<br>')}</div>
+        <div class="campo-fotos">
+          <div class="campo-label">Fotografías de evidencia</div>
+          <div class="fotos-grid" id="fotos-grid-${s.id}">
+            <div class="btn-agregar-foto" onclick="document.getElementById('file-${s.id}').click()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Agregar foto</span>
+            </div>
+          </div>
+          <input type="file" id="file-${s.id}" accept="image/*" multiple onchange="procesarFotos(${s.id}, this)">
+        </div>
+        <div class="separador"></div>
+        <div class="campo-obs">
+          <label>Observaciones</label>
+          <textarea id="obs-${s.id}" placeholder="Describa lo observado en este punto..." oninput="guardarBorradorSilencioso()"></textarea>
+        </div>
+        <div class="separador"></div>
+        <div class="campo-estado">
+          <div class="campo-label">Estado del punto</div>
+          <div class="opciones-estado">
+            <div class="opcion-estado conforme"    onclick="seleccionarEstado(${s.id}, 'Conforme')">Conforme</div>
+            <div class="opcion-estado no-conforme" onclick="seleccionarEstado(${s.id}, 'No Conforme')">No Conforme</div>
+            <div class="opcion-estado no-aplica"   onclick="seleccionarEstado(${s.id}, 'No Aplica')">No Aplica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function seleccionarEstado(secId, valor) {
+  estado.secciones[secId] = valor;
+  const opciones = document.querySelectorAll(`#sec-${secId} .opcion-estado`);
+  opciones.forEach(op => op.classList.remove('seleccionada'));
+  const mapa = { 'Conforme': 0, 'No Conforme': 1, 'No Aplica': 2 };
+  opciones[mapa[valor]].classList.add('seleccionada');
+  document.getElementById(`sec-${secId}`).classList.add('completada');
+  document.getElementById(`num-${secId}`).textContent = '✓';
+  actualizarProgreso();
+  guardarBorradorSilencioso();
+}
+
+function actualizarProgreso() {
+  const total      = SECCIONES.length;
+  const completadas = Object.keys(estado.secciones).length;
+  const pct        = (completadas / total) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `${completadas} / ${total} secciones`;
+}
+
+// ─── FOTOS ────────────────────────────────────────────────────────────────
+const FOTO_MAX_PX  = 1280;
+const FOTO_CALIDAD = 0.75;
+const FOTO_MAX_MB  = 0.4;
+
+function comprimirImagen(archivo) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > FOTO_MAX_PX || height > FOTO_MAX_PX) {
+          if (width > height) { height = Math.round(height * FOTO_MAX_PX / width); width = FOTO_MAX_PX; }
+          else                { width = Math.round(width * FOTO_MAX_PX / height); height = FOTO_MAX_PX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        let base64 = canvas.toDataURL('image/jpeg', FOTO_CALIDAD);
+        const bytes = Math.round((base64.length * 3) / 4);
+        if (bytes > FOTO_MAX_MB * 1024 * 1024) base64 = canvas.toDataURL('image/jpeg', 0.5);
+        resolve({ nombre: archivo.name.replace(/\.[^.]+$/, '.jpg'), base64, tipo: 'image/jpeg', tamaño_kb: Math.round(base64.length * 0.75 / 1024) });
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(archivo);
+  });
+}
+
+async function procesarFotos(secId, input) {
+  if (!estado.fotos[secId]) estado.fotos[secId] = [];
+  const archivos = Array.from(input.files);
+  for (const archivo of archivos) {
+    if (estado.fotos[secId].length >= 5) { mostrarToast('Máximo 5 fotos por sección', 'error'); break; }
+    mostrarToast('Comprimiendo imagen...', '');
+    const foto = await comprimirImagen(archivo);
+    estado.fotos[secId].push(foto);
+    renderizarFotos(secId);
+    try { guardarBorradorSilencioso(); }
+    catch (e) {
+      estado.fotos[secId].pop(); renderizarFotos(secId);
+      mostrarToast('Sin espacio — envíe la cola o reduzca fotos', 'error'); break;
+    }
+    mostrarToast(`Foto agregada (${foto.tamaño_kb} KB)`, 'exito');
+  }
+  input.value = '';
+  await actualizarIndicadorAlmacen();
+}
+
+function renderizarFotos(secId) {
+  const grid  = document.getElementById(`fotos-grid-${secId}`);
+  const fotos = estado.fotos[secId] || [];
+  grid.innerHTML = fotos.map((f, i) => `
+    <div class="foto-preview">
+      <img src="${f.base64}" alt="Foto ${i+1}">
+      <button class="foto-eliminar" onclick="eliminarFoto(${secId}, ${i})">X</button>
+    </div>
+  `).join('') + `
+    <div class="btn-agregar-foto" onclick="document.getElementById('file-${secId}').click()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>Agregar foto</span>
+    </div>`;
+}
+
+function eliminarFoto(secId, idx) {
+  estado.fotos[secId].splice(idx, 1);
+  renderizarFotos(secId);
+  guardarBorradorSilencioso();
+}
+
+// ─── BORRADORES (lista editable) ──────────────────────────────────────────
+// borradorActualId: si estamos editando un borrador guardado, guarda su id
+let borradorActualId = null;
+
+async function guardarBorrador() {
+  try {
+    const datos = recopilarDatos();
+    if (!formularioTieneContenido(datos)) { mostrarToast('Agregue algún dato antes de guardar', 'error'); return; }
+
+    const etiqueta = [
+      datos.anden     ? 'Andén ' + datos.anden : null,
+      datos.inspector || null,
+      datos.fecha     ? datos.fecha.replace('T',' ') : null
+    ].filter(Boolean).join(' · ') || 'Borrador sin título';
+
+    if (borradorActualId !== null) {
+      // Actualizar borrador existente
+      const idx = estado.borradores.findIndex(b => b.id === borradorActualId);
+      if (idx >= 0) {
+        estado.borradores[idx] = { ...estado.borradores[idx], datos, etiqueta, guardadoEn: new Date().toISOString() };
+      }
+    } else {
+      // Nuevo borrador
+      borradorActualId = Date.now();
+      estado.borradores.push({ id: borradorActualId, datos, etiqueta, guardadoEn: new Date().toISOString() });
+    }
+
+    await Almacen.guardarListaBorradores(estado.borradores);
+    await actualizarIndicadorAlmacen();
+    renderizarPanel();
+    mostrarToast('Borrador guardado', 'exito');
+  } catch (e) { console.error(e); mostrarToast('No se pudo guardar el borrador', 'error'); }
+}
+
+function guardarBorradorSilencioso() {
+  // Solo actualiza el borrador activo si ya existe uno guardado
+  if (borradorActualId === null) return;
+  clearTimeout(timerGuardado);
+  timerGuardado = setTimeout(async () => {
+    try {
+      const datos    = recopilarDatos();
+      const etiqueta = [
+        datos.anden     ? 'Andén ' + datos.anden : null,
+        datos.inspector || null,
+        datos.fecha     ? datos.fecha.replace('T',' ') : null
+      ].filter(Boolean).join(' · ') || 'Borrador sin título';
+      const idx = estado.borradores.findIndex(b => b.id === borradorActualId);
+      if (idx >= 0) {
+        estado.borradores[idx] = { ...estado.borradores[idx], datos, etiqueta, guardadoEn: new Date().toISOString() };
+        await Almacen.guardarListaBorradores(estado.borradores);
+        renderizarPanel();
+      }
+    } catch (e) { console.warn('Guardado silencioso falló:', e); }
+  }, 600);
+}
+
+async function abrirBorrador(id) {
+  const borrador = estado.borradores.find(b => b.id === Number(id));
+  if (!borrador) return;
+  borradorActualId = borrador.id;
+  await cargarDatosEnFormulario(borrador.datos);
+  renderizarPanel();
+  mostrarToast('Borrador cargado — puede seguir editando', 'exito');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function eliminarBorrador(id) {
+  estado.borradores = estado.borradores.filter(b => b.id !== Number(id));
+  await Almacen.guardarListaBorradores(estado.borradores);
+  if (borradorActualId === Number(id)) borradorActualId = null;
+  renderizarPanel();
+  mostrarToast('Borrador eliminado', '');
+}
+
+async function cargarBorrador() {
+  // Carga el último borrador temporal (migración/compatibilidad)
+  let datos = null;
+  try { datos = await Almacen.cargarBorrador(); } catch (e) { console.error(e); return; }
+  if (!datos) return;
+  await cargarDatosEnFormulario(datos);
+  await Almacen.guardarBorrador(null);
+}
+
+async function cargarDatosEnFormulario(datos) {
+  try {
+    // Limpiar primero
+    estado.secciones = {}; estado.fotos = {};
+    renderizarSecciones();
+
+    if (datos.inspector) document.getElementById('inspector').value = datos.inspector;
+    if (datos.anden)     document.getElementById('anden').value     = datos.anden;
+    if (datos.turno)     document.getElementById('turno').value     = datos.turno;
+    if (datos.fecha)     document.getElementById('fecha').value     = datos.fecha;
+    if (datos.secciones) datos.secciones.forEach(s => {
+      if (s.estado) aplicarEstadoSinAvance(s.numero, s.estado);
+      if (s.observacion) { const obs = document.getElementById('obs-' + s.numero); if (obs) obs.value = s.observacion; }
+    });
+    if (datos.fotos) datos.fotos.forEach(fGroup => {
+      const secId = fGroup.seccion;
+      estado.fotos[secId] = fGroup.imagenes.map(img => ({ nombre: img.nombre, base64: 'data:' + img.tipo + ';base64,' + img.datos, tipo: img.tipo }));
+      renderizarFotos(secId);
+    });
+    actualizarProgreso();
+  } catch (e) { console.error(e); }
+}
+
+function aplicarEstadoSinAvance(secId, valor) {
+  estado.secciones[secId] = valor;
+  const opciones = document.querySelectorAll(`#sec-${secId} .opcion-estado`);
+  opciones.forEach(op => op.classList.remove('seleccionada'));
+  const mapa = { 'Conforme': 0, 'No Conforme': 1, 'No Aplica': 2 };
+  if (opciones[mapa[valor]]) opciones[mapa[valor]].classList.add('seleccionada');
+  document.getElementById(`sec-${secId}`)?.classList.add('completada');
+  const num = document.getElementById(`num-${secId}`);
+  if (num) num.textContent = '✓';
+}
+
+// ─── RECOPILACIÓN DE DATOS ────────────────────────────────────────────────
+function recopilarDatos() {
+  const seccionesMapeadas = SECCIONES.map(s => ({
+    numero: parseInt(s.id), titulo: s.titulo,
+    estado: estado.secciones[s.id] || '',
+    observacion: document.getElementById(`obs-${s.id}`)?.value || ''
+  }));
+  const fotosMapeadas = Object.entries(estado.fotos).map(([secId, listaFotos]) => ({
+    seccion: parseInt(secId),
+    imagenes: listaFotos.map(f => {
+      const partes = f.base64.split(',');
+      return { nombre: f.nombre, datos: partes.length > 1 ? partes[1] : partes[0], tipo: f.tipo };
+    })
+  }));
+  const datos = {
+    inspector: document.getElementById('inspector').value.trim(),
+    anden:     document.getElementById('anden').value.trim(),
+    turno:     document.getElementById('turno').value,
+    fecha:     document.getElementById('fecha').value,
+    timestamp: new Date().toISOString(),
+    secciones: seccionesMapeadas,
+    fotos:     fotosMapeadas,
+    total_fotos: fotosMapeadas.reduce((acc, g) => acc + g.imagenes.length, 0)
+  };
+  const correoFijo = CONFIG.CORREO_FIJO.trim();
+  if (correoFijo) datos.correo_destino = correoFijo;
+  return datos;
+}
+
+function formularioTieneContenido(datos) {
+  if (datos.inspector || datos.anden || datos.turno) return true;
+  if (datos.secciones.some(s => s.estado || s.observacion?.trim())) return true;
+  if (datos.total_fotos > 0) return true;
+  return false;
+}
+
+function validarFormulario(datos) {
+  const errores = [];
+  if (!formularioTieneContenido(datos)) errores.push('Agregue al menos un dato antes de enviar');
+  if (!CONFIG.POWER_AUTOMATE_URL || CONFIG.POWER_AUTOMATE_URL.includes('PEGA_AQUI')) errores.push('Falta configurar la URL de Power Automate en CONFIG');
+  return errores;
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────
+function abrirModalEnvio() {
+  const datos   = recopilarDatos();
+  const errores = validarFormulario(datos);
+  if (errores.length > 0) { mostrarToast(errores[0], 'error'); return; }
+
+  const resumen = document.getElementById('resumen-envio');
+  const seccionesRespondidas = datos.secciones.filter(s => s.estado || s.observacion?.trim()).length;
+  resumen.innerHTML = `
+    <strong>Resumen de la inspección</strong>
+    ${datos.inspector ? `<div style="font-size:0.78rem;margin-bottom:4px;color:#374151;">Inspector: <strong>${datos.inspector}</strong></div>` : ''}
+    ${datos.anden     ? `<div style="font-size:0.78rem;margin-bottom:8px;color:#374151;">Andén N°: <strong>${datos.anden}</strong></div>` : ''}
+    ${datos.secciones.map(s => {
+      const respondida = s.estado || s.observacion?.trim();
+      const fotosSec   = (datos.fotos.find(f => f.seccion === s.numero)?.imagenes.length) || 0;
+      let detalle = 'Sin registrar';
+      if (s.estado) detalle = s.estado;
+      else if (s.observacion?.trim()) detalle = 'Solo observación';
+      if (fotosSec > 0) detalle += ` · ${fotosSec} foto(s)`;
+      return `
+      <div class="item-cola">
+        <span style="color:#374151;">${s.numero}. ${s.titulo.substring(0,38)}…</span>
+        <span class="estado-cola ${s.estado === 'Conforme' ? 'enviado' : s.estado === 'No Conforme' ? '' : 'pendiente'}"
+          style="${s.estado === 'No Conforme' ? 'color:var(--rojo);' : ''}${!respondida ? 'color:var(--gris);font-weight:400;' : ''}">
+          ${detalle}
+        </span>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:10px;font-size:0.72rem;color:var(--gris);padding-top:8px;border-top:1px solid var(--borde);">
+      Secciones con datos: ${seccionesRespondidas} de ${datos.secciones.length} &nbsp;·&nbsp; Fotos adjuntas: ${datos.total_fotos}
+    </div>`;
+
+  const online  = navigator.onLine;
+  const btnOk   = document.getElementById('btn-confirmar-envio');
+  btnOk.textContent = !online ? 'Guardar en cola' : 'Confirmar envío';
+  document.getElementById('modal-envio').classList.add('visible');
+}
+
+function cerrarModal() { document.getElementById('modal-envio').classList.remove('visible'); }
+
+// ─── ENVÍO ────────────────────────────────────────────────────────────────
+async function encolarInspeccion(datos) {
+  estado.cola.push({ ...datos, id: Date.now(), estado_envio: 'pendiente' });
+  await persistirCola();
+}
+
+async function enviarFormulario() {
+  cerrarModal();
+  const datos = recopilarDatos();
+  if (!navigator.onLine) {
+    await encolarInspeccion(datos);
+    await Almacen.guardarBorrador(null);
+    reiniciarFormulario(false);
+    mostrarToast('Guardado en cola — puede continuar con otra inspección', 'exito');
+    return;
+  }
+  const ok = await enviarAhora(datos, { limpiarFormulario: true });
+  if (!ok) { await encolarInspeccion(datos); reiniciarFormulario(false); }
+}
+
+async function enviarAhora(datos, opciones = {}) {
+  const { limpiarFormulario = false } = opciones;
+  const btnEnviar    = document.getElementById('btn-enviar');
+  const btnConfirmar = document.getElementById('btn-confirmar-envio');
+  btnEnviar.disabled = true;
+  if (btnConfirmar) btnConfirmar.disabled = true;
+  if (limpiarFormulario) mostrarToast('Enviando...', '');
+  try {
+    const response = await fetch(CONFIG.POWER_AUTOMATE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos)
+    });
+    const textoRespuesta = await response.text();
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${textoRespuesta || 'sin detalle'}`);
+    if (limpiarFormulario) {
+      mostrarToast('Inspección enviada correctamente', 'exito');
+      await Almacen.guardarBorrador(null);
+      // Eliminar borrador de la lista si había uno activo
+      if (borradorActualId !== null) {
+        estado.borradores = estado.borradores.filter(b => b.id !== borradorActualId);
+        await Almacen.guardarListaBorradores(estado.borradores);
+        borradorActualId = null;
+      }
+      setTimeout(() => reiniciarFormulario(false), 1200);
+    }
+    return true;
+  } catch (e) {
+    console.error('Power Automate Error:', e);
+    if (limpiarFormulario) {
+      let mensaje = 'Error al enviar — guardado en cola';
+      if (e.message.includes('Failed to fetch') || e.name === 'TypeError') mensaje = 'Sin conexión o bloqueo CORS. Use la app instalada desde SharePoint/OneDrive.';
+      else if (e.message.startsWith('HTTP')) mensaje = e.message.slice(0, 120);
+      mostrarToast(mensaje, 'error');
+    }
+    return false;
+  } finally {
+    btnEnviar.disabled = false;
+    if (btnConfirmar) btnConfirmar.disabled = false;
+  }
+}
+
+async function intentarEnviarCola(manual = false) {
+  if (!navigator.onLine) { if (manual) mostrarToast('Sin conexión — la cola se enviará al reconectar', 'error'); return; }
+  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente');
+  if (pendientes.length === 0) { if (manual) mostrarToast('No hay inspecciones pendientes', ''); return; }
+  mostrarToast(`Enviando ${pendientes.length} inspección(es)...`, '');
+  let enviadas = 0;
+  for (const item of [...pendientes]) {
+    const payload = { ...item }; delete payload.id; delete payload.estado_envio;
+    const ok = await enviarAhora(payload, { limpiarFormulario: false });
+    if (ok) { item.estado_envio = 'enviado'; enviadas++; }
+  }
+  estado.cola = estado.cola.filter(i => i.estado_envio === 'pendiente');
+  await persistirCola();
+  if (enviadas > 0) mostrarToast(`${enviadas} inspección(es) enviada(s)`, 'exito');
+  else if (manual)  mostrarToast('No se pudo enviar la cola — revise la conexión', 'error');
+}
+
+async function eliminarDeCola(id) {
+  estado.cola = estado.cola.filter(i => i.id !== Number(id));
+  await persistirCola();
+  mostrarToast('Registro eliminado de la cola', '');
+}
+
+function renderizarPanel() {
+  const panel      = document.getElementById('cola-panel');
+  const lista      = document.getElementById('cola-lista');
+  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente');
+  const borradores = estado.borradores || [];
+  const hayAlgo    = pendientes.length > 0 || borradores.length > 0;
+
+  if (!hayAlgo) { panel.classList.remove('visible'); lista.innerHTML = ''; return; }
+  panel.classList.add('visible');
+
+  let html = '';
+
+  // ── Borradores en progreso ───────────────────────────────
+  if (borradores.length > 0) {
+    html += `<div class="panel-seccion-titulo">Borradores guardados</div>`;
+    html += borradores.map(b => {
+      const activo = b.id === borradorActualId ? ' (en edición)' : '';
+      return `<div class="item-cola">
+        <span class="item-cola-label">${b.etiqueta}${activo}</span>
+        <div class="item-cola-btns">
+          <button type="button" class="btn-cola-abrir" data-id="${b.id}">Abrir</button>
+          <button type="button" class="btn-cola-borrar" data-id="${b.id}" data-tipo="borrador">Eliminar</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Envíos pendientes ────────────────────────────────────
+  if (pendientes.length > 0) {
+    html += `<div class="panel-seccion-titulo" style="margin-top:${borradores.length > 0 ? '12px' : '0'}">Envíos pendientes</div>`;
+    html += pendientes.map(item => {
+      const etiqueta = [
+        item.anden       ? 'Andén ' + item.anden : null,
+        item.inspector   || null,
+        item.fecha       ? item.fecha.replace('T', ' ') : null,
+        item.total_fotos ? item.total_fotos + ' foto(s)' : null
+      ].filter(Boolean).join(' · ') || 'Inspección sin título';
+      return `<div class="item-cola">
+        <span class="item-cola-label">${etiqueta}</span>
+        <div class="item-cola-btns">
+          <button type="button" class="btn-cola-borrar" data-id="${item.id}" data-tipo="cola">Quitar</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  lista.innerHTML = html;
+
+  lista.querySelectorAll('.btn-cola-abrir').forEach(btn => {
+    btn.addEventListener('click', () => abrirBorrador(btn.dataset.id));
+  });
+  lista.querySelectorAll('.btn-cola-borrar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.tipo === 'borrador') eliminarBorrador(btn.dataset.id);
+      else eliminarDeCola(btn.dataset.id);
+    });
+  });
+}
+
+function actualizarBannerCola() {
+  const banner     = document.getElementById('cola-banner');
+  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente').length;
+  const online     = navigator.onLine;
+  if (pendientes > 0) {
+    banner.classList.add('visible');
+    document.getElementById('cola-texto').textContent = online
+      ? pendientes + ' envío(s) pendiente(s) — se enviarán automáticamente o use "Enviar cola".'
+      : pendientes + ' inspección(es) guardada(s) localmente — se enviarán al reconectar.';
+  } else if (!online) {
+    banner.classList.add('visible');
+    document.getElementById('cola-texto').textContent = 'Sin conexión — las inspecciones completadas quedarán en cola local.';
+  } else {
+    banner.classList.remove('visible');
+  }
+  renderizarPanel();
+}
+
+// ─── REINICIAR FORMULARIO ─────────────────────────────────────────────────
+function reiniciarFormulario(mostrarMensaje = true) {
+  estado.secciones = {}; estado.fotos = {};
+  borradorActualId = null;
+  document.getElementById('inspector').value = '';
+  document.getElementById('anden').value = '';
+  document.getElementById('turno').value = '';
+  const ahora = new Date();
+  document.getElementById('fecha').value = ahora.toISOString().slice(0,16);
+  renderizarSecciones();
+  actualizarProgreso();
+  Almacen.guardarBorrador(null).then(actualizarIndicadorAlmacen).catch(() => {});
+  if (mostrarMensaje) mostrarToast('Formulario listo para nueva inspección', 'exito');
+}
+
+function confirmarReinicio() {
+  if (confirm('¿Reiniciar el formulario? Se perderán los datos no enviados.')) reiniciarFormulario();
+}
+
+// ─── EXPORTAR CSV ─────────────────────────────────────────────────────────
+function exportarCSV() {
+  const datos = recopilarDatos();
+  const filas = [['Inspector', 'Andén', 'Turno', 'Fecha', 'Sección', 'Título', 'Estado', 'Observaciones']];
+  datos.secciones.forEach(s => filas.push([datos.inspector, datos.anden, datos.turno, datos.fecha, s.numero, s.titulo, s.estado, s.observacion]));
+  const csv  = filas.map(f => f.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = `inspeccion_anden_${datos.anden || 'X'}_${datos.fecha?.slice(0,10) || 'hoy'}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  mostrarToast('Archivo CSV descargado', 'exito');
+}
+
+// ─── CONEXIÓN ─────────────────────────────────────────────────────────────
+function actualizarEstadoConexion() {
+  const online = navigator.onLine;
+  const dot    = document.getElementById('status-dot');
+  const txt    = document.getElementById('status-text');
+  if (online) { dot.classList.remove('offline'); txt.textContent = 'En línea'; }
+  else         { dot.classList.add('offline');    txt.textContent = 'Sin conexión'; }
+  actualizarBannerCola();
+}
+
+async function actualizarIndicadorAlmacen() {
+  const textEl = document.getElementById('storage-text');
+  const fillEl = document.getElementById('storage-fill');
+  const wrap   = document.getElementById('storage-wrap');
+  if (!textEl || !fillEl || !navigator.storage?.estimate) { if (textEl) textEl.textContent = 'IndexedDB activo'; return; }
+  try {
+    const { usage = 0, quota = 1 } = await navigator.storage.estimate();
+    const pct    = Math.min(100, Math.round((usage / quota) * 100));
+    const usoMB  = (usage / (1024 * 1024)).toFixed(1);
+    const totMB  = (quota  / (1024 * 1024)).toFixed(0);
+    textEl.textContent = `Almacenamiento: ${usoMB} / ${totMB} MB (${pct}%)`;
+    fillEl.style.width = pct + '%';
+    if (wrap) wrap.style.display = 'block';
+    fillEl.classList.remove('warn', 'danger');
+    if (pct >= 85) { fillEl.classList.add('danger'); mostrarToast('Almacenamiento casi lleno — envíe la cola o elimine fotos', 'error'); }
+    else if (pct >= 65) fillEl.classList.add('warn');
+  } catch (_) { if (textEl) textEl.textContent = 'IndexedDB activo'; }
+}
+
+// ─── PWA ──────────────────────────────────────────────────────────────────
+function esModoInstalable() { return location.protocol === 'https:' || location.hostname === 'localhost'; }
+
+function configurarInstalacionPWA() {
+  const banner = document.getElementById('install-banner');
+  const titulo = document.getElementById('install-titulo');
+  const texto  = document.getElementById('install-texto');
+  const btn    = document.getElementById('btn-instalar');
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredInstallPrompt = e; banner.classList.add('visible');
+    titulo.textContent = 'Instalar aplicación en la tablet';
+    texto.textContent  = 'Agréguelo a la pantalla de inicio para acceso sin internet.';
+    btn.style.display  = 'inline-block';
+  });
+  if (window.matchMedia('(display-mode: standalone)').matches) { banner.classList.remove('visible'); return; }
+  if (!esModoInstalable()) return;
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    banner.classList.add('visible');
+    titulo.textContent = 'Instalar en iPad / iPhone';
+    texto.textContent  = 'Abra en Safari, pulse Compartir y seleccione "Agregar a pantalla de inicio".';
+    btn.style.display  = 'none';
+  }
+}
+
+async function instalarApp() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  document.getElementById('install-banner').classList.remove('visible');
+}
+
+function registrarServiceWorker() {
+  if (!('serviceWorker' in navigator) || !esModoInstalable()) return;
+  navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('SW:', e));
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────
+function mostrarToast(msg, tipo) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast visible ' + tipo;
+  setTimeout(() => t.classList.remove('visible'), 3200);
+}
+</script>
+
+</body>
+</html>
