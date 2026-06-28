@@ -9,10 +9,6 @@ CONTENIDO DE ESTA CARPETA
 - icon.svg            → Icono de la app
 - LEEME.txt           → Esta guía
 
-NO envíes solo el HTML suelto si puedes evitarlo.
-Envía toda la carpeta "inspeccion-reefer" comprimida (.zip).
-
-
 OPCIÓN RECOMENDADA: SHAREPOINT / ONEDRIVE (EMPRESA)
 ---------------------------------------------------
 1. Sube la carpeta completa a SharePoint o OneDrive de Sitrans.
