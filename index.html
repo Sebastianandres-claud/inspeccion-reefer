@@ -925,7 +925,7 @@ const Almacen = {
     return new Promise((resolve, reject) => {
       const tx  = db.transaction(store, 'readonly');
       const req = tx.objectStore(store).get(key);
-      req.onsuccess = () => resolve(req.result ?? null);
+      req.onsuccess = () => resolve(req.result !== undefined ? req.result : null);
       req.onerror   = () => reject(req.error);
     });
   },
@@ -940,7 +940,7 @@ const Almacen = {
   },
   async init() {
     await this.open();
-    if (navigator.storage?.persist) { try { await navigator.storage.persist(); } catch (_) {} }
+    if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch (_) {} }
     await this.migrarDesdeLocalStorage();
   },
   async migrarDesdeLocalStorage() {
@@ -1243,7 +1243,8 @@ function aplicarEstadoSinAvance(secId, valor) {
   opciones.forEach(op => op.classList.remove('seleccionada'));
   const mapa = { 'Conforme': 0, 'No Conforme': 1, 'No Aplica': 2 };
   if (opciones[mapa[valor]]) opciones[mapa[valor]].classList.add('seleccionada');
-  document.getElementById(`sec-${secId}`)?.classList.add('completada');
+  var elSec = document.getElementById(`sec-${secId}`);
+  if (elSec) elSec.classList.add('completada');
   const num = document.getElementById(`num-${secId}`);
   if (num) num.textContent = '✓';
 }
@@ -1253,7 +1254,7 @@ function recopilarDatos() {
   const seccionesMapeadas = SECCIONES.map(s => ({
     numero: parseInt(s.id), titulo: s.titulo,
     estado: estado.secciones[s.id] || '',
-    observacion: document.getElementById(`obs-${s.id}`)?.value || ''
+    observacion: (document.getElementById(`obs-${s.id}`) || {}).value || ''
   }));
   const fotosMapeadas = Object.entries(estado.fotos).map(([secId, listaFotos]) => ({
     seccion: parseInt(secId),
@@ -1279,7 +1280,7 @@ function recopilarDatos() {
 
 function formularioTieneContenido(datos) {
   if (datos.inspector || datos.anden || datos.turno) return true;
-  if (datos.secciones.some(s => s.estado || s.observacion?.trim())) return true;
+  if (datos.secciones.some(s => s.estado || (s.observacion && s.observacion.trim()))) return true;
   if (datos.total_fotos > 0) return true;
   return false;
 }
@@ -1298,17 +1299,18 @@ function abrirModalEnvio() {
   if (errores.length > 0) { mostrarToast(errores[0], 'error'); return; }
 
   const resumen = document.getElementById('resumen-envio');
-  const seccionesRespondidas = datos.secciones.filter(s => s.estado || s.observacion?.trim()).length;
+  const seccionesRespondidas = datos.secciones.filter(s => s.estado || (s.observacion && s.observacion.trim())).length;
   resumen.innerHTML = `
     <strong>Resumen de la inspección</strong>
     ${datos.inspector ? `<div style="font-size:0.78rem;margin-bottom:4px;color:#374151;">Inspector: <strong>${datos.inspector}</strong></div>` : ''}
     ${datos.anden     ? `<div style="font-size:0.78rem;margin-bottom:8px;color:#374151;">Andén N°: <strong>${datos.anden}</strong></div>` : ''}
     ${datos.secciones.map(s => {
-      const respondida = s.estado || s.observacion?.trim();
-      const fotosSec   = (datos.fotos.find(f => f.seccion === s.numero)?.imagenes.length) || 0;
+      const respondida = s.estado || (s.observacion && s.observacion.trim());
+      const fotoEnc = datos.fotos.find(f => f.seccion === s.numero);
+      const fotosSec = (fotoEnc && fotoEnc.imagenes.length) || 0;
       let detalle = 'Sin registrar';
       if (s.estado) detalle = s.estado;
-      else if (s.observacion?.trim()) detalle = 'Solo observación';
+      else if (s.observacion && s.observacion.trim()) detalle = 'Solo observación';
       if (fotosSec > 0) detalle += ` · ${fotosSec} foto(s)`;
       return `
       <div class="item-cola">
@@ -1521,7 +1523,7 @@ function exportarCSV() {
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url; a.download = `inspeccion_anden_${datos.anden || 'X'}_${datos.fecha?.slice(0,10) || 'hoy'}.csv`;
+  a.href = url; a.download = `inspeccion_anden_${datos.anden || 'X'}_${(datos.fecha ? datos.fecha.slice(0,10) : '') || 'hoy'}.csv`;
   a.click(); URL.revokeObjectURL(url);
   mostrarToast('Archivo CSV descargado', 'exito');
 }
@@ -1540,7 +1542,7 @@ async function actualizarIndicadorAlmacen() {
   const textEl = document.getElementById('storage-text');
   const fillEl = document.getElementById('storage-fill');
   const wrap   = document.getElementById('storage-wrap');
-  if (!textEl || !fillEl || !navigator.storage?.estimate) { if (textEl) textEl.textContent = 'IndexedDB activo'; return; }
+  if (!textEl || !fillEl || !(navigator.storage && navigator.storage.estimate)) { if (textEl) textEl.textContent = 'IndexedDB activo'; return; }
   try {
     const { usage = 0, quota = 1 } = await navigator.storage.estimate();
     const pct    = Math.min(100, Math.round((usage / quota) * 100));
