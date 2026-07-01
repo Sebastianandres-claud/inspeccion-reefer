@@ -43,7 +43,7 @@
     line-height: 1.5;
   }
 
-  /* ── HEADER ─────────────────────────────────────────── */
+  /* ─ HEADER ─*/
   .header {
     background: var(--azul);
     color: white;
@@ -237,14 +237,14 @@
     letter-spacing: 0.3px;
   }
 
-  /* ── LAYOUT ──────────────────────────────────────────── */
+  /* LAYOUT */
   .container {
     max-width: 720px;
     margin: 0 auto;
     padding: 20px 16px;
   }
 
-  /* ── DATOS DEL INSPECTOR ─────────────────────────────── */
+  /* DATOS DEL INSPECTOR */
   .inspector-card {
     background: white;
     border-radius: var(--radio);
@@ -316,7 +316,7 @@
     padding-right: 32px;
   }
 
-  /* ── COLA PANEL ──────────────────────────────────────── */
+  /*  COLA PANEL  */
   .cola-panel {
     background: white;
     border-radius: var(--radio);
@@ -397,7 +397,7 @@
     border-bottom: 1px solid var(--borde);
   }
 
-  /* ── SECCIONES ───────────────────────────────────────── */
+  /*  SECCIONES  */
   .seccion {
     background: white;
     border-radius: var(--radio);
@@ -455,7 +455,7 @@
     margin-bottom: 16px;
   }
 
-  /* ── ESTADO ──────────────────────────────────────────── */
+  /*  ESTADO  */
   .campo-estado { margin-bottom: 0; }
   .campo-label {
     font-size: 0.68rem;
@@ -490,10 +490,10 @@
   .opcion-estado.seleccionada.no-conforme { border-color: var(--rojo); background: #fef2f2; color: var(--rojo); }
   .opcion-estado.seleccionada.no-aplica   { border-color: var(--gris); background: #f1f3f5; color: var(--gris); }
 
-  /* ── SEPARADOR ───────────────────────────────────────── */
+  /*  SEPARADOR  */
   .separador { height: 1px; background: var(--borde); margin: 16px 0; }
 
-  /* ── FOTOS ───────────────────────────────────────────── */
+  /*  FOTOS  */
   .campo-fotos { margin-top: 0; }
   .fotos-grid {
     display: grid;
@@ -549,10 +549,10 @@
   .btn-agregar-foto svg { flex-shrink: 0; }
   input[type="file"] { display: none; }
 
-  /* ── OBSERVACIONES ───────────────────────────────────── */
+  /*  OBSERVACIONES  */
   .campo-obs { margin-top: 0; }
 
-  /* ── FOOTER ACCIONES ─────────────────────────────────── */
+  /*  FOOTER ACCIONES  */
   .footer-acciones {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -590,7 +590,7 @@
   .btn-reset { background: var(--gris-claro); color: var(--gris); border: 1px solid var(--borde); flex: 0.5; font-size: 0.72rem; }
   .btn-reset:hover { background: var(--borde); color: var(--gris-oscuro); }
 
-  /* ── MODAL ───────────────────────────────────────────── */
+  /*  MODAL  */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -669,7 +669,7 @@
   }
   .btn-modal-ok:hover { background: var(--azul); }
 
-  /* ── RESUMEN COLA ─────────────────────────────────────── */
+  /* RESUMEN COLA */
   .resumen-cola {
     background: var(--gris-claro);
     border-radius: var(--radio-sm);
@@ -701,7 +701,7 @@
   .estado-cola.pendiente { color: var(--naranja); }
   .estado-cola.enviado   { color: var(--verde); }
 
-  /* ── TOAST ───────────────────────────────────────────── */
+  /*  TOAST  */
   .toast {
     position: fixed;
     bottom: 90px;
@@ -997,7 +997,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.addEventListener('offline', actualizarEstadoConexion);
 });
 
-// ─── RENDER SECCIONES ─────────────────────────────────────────────────────
+//  RENDER SECCIONES 
 function renderizarSecciones() {
   const container = document.getElementById('secciones-container');
   container.innerHTML = SECCIONES.map(s => `
