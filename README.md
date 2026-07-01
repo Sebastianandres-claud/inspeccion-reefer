@@ -1,1 +1,61 @@
 # inspeccion-reefer
+
+INSPECCIÓN ANDÉN REEFER — GUÍA DE DESPLIEGUE EN TABLETS
+======================================================
+
+CONTENIDO DE ESTA CARPETA
+-------------------------
+- index.html          → Formulario principal
+- manifest.webmanifest → Configuración PWA (instalable)
+- sw.js               → Service Worker (abre sin internet después de la 1ª carga)
+- icon.svg            → Icono de la app
+- LEEME.txt           → Esta guía
+
+OPCIÓN RECOMENDADA: SHAREPOINT / ONEDRIVE (EMPRESA)
+---------------------------------------------------
+1. Sube la carpeta completa a SharePoint o OneDrive de Sitrans.
+2. Abre index.html desde el navegador (Chrome o Edge en la tablet).
+3. Instala como app:
+   - Android: menú ⋮ → "Instalar aplicación" / "Agregar a pantalla principal"
+   - iPad: Safari → Compartir → "Agregar a pantalla de inicio"
+4. La primera vez necesitas internet para abrir la URL y cachear la app.
+5. Después puedes usarla en terreno sin señal.
+
+
+OPCIÓN ALTERNATIVA: COPIA DIRECTA EN TABLET
+---------------------------------------------
+1. Comprime esta carpeta en .zip y envíala por Teams/correo/USB.
+2. Descomprime en la tablet (Descargas o Documentos).
+3. Abre index.html con Chrome.
+   LIMITACIÓN: en modo archivo local no se instala como PWA y el almacenamiento es más limitado.
+   Funciona para pruebas, pero SharePoint/OneDrive es mejor para producción.
+
+
+USO EN TERRENO (SIN INTERNET)
+-----------------------------
+1. Abre la app (icono instalado o index.html).
+2. Rellena lo que necesites (nada es 100% obligatorio excepto al menos un dato).
+3. Pulsa Enviar → queda en "cola pendiente" en la tablet.
+4. Puedes hacer varias inspecciones el mismo día (Nueva inspección).
+5. Al volver a tener WiFi/datos, abre la app → se envía la cola a Power Automate.
+
+
+BOTONES ÚTILES
+--------------
+- Guardar      → Borrador de la inspección actual
+- Enviar       → Envía o encola si no hay red
+- CSV          → Respaldo descargable (funciona offline)
+- Refrescar    → Limpia el formulario actual (no borra la cola)
+- Enviar cola  → Fuerza el envío cuando hay internet
+
+
+CONFIGURACIÓN (solo administrador)
+----------------------------------
+Edita index.html, sección CONFIG:
+- POWER_AUTOMATE_URL → URL del flujo HTTP
+- CORREO_FIJO        → samiranda@sitrans.cl (destino del correo)
+
+
+SOPORTE
+-------
+Si no llega el correo: revisa que el flujo Power Automate esté activo y que la tablet tenga internet al enviar la cola.
