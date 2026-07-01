@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>Inspección andén/módulo reefer</title>
+<title>Inspección de Andén Reefer</title>
 <style>
   :root {
     --azul:         #002D5B;
@@ -43,7 +43,7 @@
     line-height: 1.5;
   }
 
-  /* ─ HEADER ─*/
+  /* ── HEADER ─────────────────────────────────────────── */
   .header {
     background: var(--azul);
     color: white;
@@ -237,14 +237,14 @@
     letter-spacing: 0.3px;
   }
 
-  /* LAYOUT */
+  /* ── LAYOUT ──────────────────────────────────────────── */
   .container {
     max-width: 720px;
     margin: 0 auto;
     padding: 20px 16px;
   }
 
-  /* DATOS DEL INSPECTOR */
+  /* ── DATOS DEL INSPECTOR ─────────────────────────────── */
   .inspector-card {
     background: white;
     border-radius: var(--radio);
@@ -316,7 +316,7 @@
     padding-right: 32px;
   }
 
-  /*  COLA PANEL  */
+  /* ── COLA PANEL ──────────────────────────────────────── */
   .cola-panel {
     background: white;
     border-radius: var(--radio);
@@ -397,7 +397,7 @@
     border-bottom: 1px solid var(--borde);
   }
 
-  /*  SECCIONES  */
+  /* ── SECCIONES ───────────────────────────────────────── */
   .seccion {
     background: white;
     border-radius: var(--radio);
@@ -455,7 +455,7 @@
     margin-bottom: 16px;
   }
 
-  /*  ESTADO  */
+  /* ── ESTADO ──────────────────────────────────────────── */
   .campo-estado { margin-bottom: 0; }
   .campo-label {
     font-size: 0.68rem;
@@ -490,10 +490,10 @@
   .opcion-estado.seleccionada.no-conforme { border-color: var(--rojo); background: #fef2f2; color: var(--rojo); }
   .opcion-estado.seleccionada.no-aplica   { border-color: var(--gris); background: #f1f3f5; color: var(--gris); }
 
-  /*  SEPARADOR  */
+  /* ── SEPARADOR ───────────────────────────────────────── */
   .separador { height: 1px; background: var(--borde); margin: 16px 0; }
 
-  /*  FOTOS  */
+  /* ── FOTOS ───────────────────────────────────────────── */
   .campo-fotos { margin-top: 0; }
   .fotos-grid {
     display: grid;
@@ -549,10 +549,10 @@
   .btn-agregar-foto svg { flex-shrink: 0; }
   input[type="file"] { display: none; }
 
-  /*  OBSERVACIONES  */
+  /* ── OBSERVACIONES ───────────────────────────────────── */
   .campo-obs { margin-top: 0; }
 
-  /*  FOOTER ACCIONES  */
+  /* ── FOOTER ACCIONES ─────────────────────────────────── */
   .footer-acciones {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -590,7 +590,7 @@
   .btn-reset { background: var(--gris-claro); color: var(--gris); border: 1px solid var(--borde); flex: 0.5; font-size: 0.72rem; }
   .btn-reset:hover { background: var(--borde); color: var(--gris-oscuro); }
 
-  /*  MODAL  */
+  /* ── MODAL ───────────────────────────────────────────── */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -669,7 +669,7 @@
   }
   .btn-modal-ok:hover { background: var(--azul); }
 
-  /* RESUMEN COLA */
+  /* ── RESUMEN COLA ─────────────────────────────────────── */
   .resumen-cola {
     background: var(--gris-claro);
     border-radius: var(--radio-sm);
@@ -701,7 +701,7 @@
   .estado-cola.pendiente { color: var(--naranja); }
   .estado-cola.enviado   { color: var(--verde); }
 
-  /*  TOAST  */
+  /* ── TOAST ───────────────────────────────────────────── */
   .toast {
     position: fixed;
     bottom: 90px;
@@ -740,7 +740,7 @@
         </svg>
       </div>
       <div class="brand-text">
-        <div class="title">Inspección Andén/Módulo Reefer</div>
+        <div class="title">Inspección Andén Reefer</div>
       </div>
     </div>
     <div class="header-meta">
@@ -802,7 +802,7 @@
           <input type="text" id="inspector" placeholder="Nombre completo">
         </div>
         <div>
-          <label>Andén posición</label>
+          <label>Andén N°</label>
           <input type="text" id="anden" placeholder="Ej: 22-43">
         </div>
         <div>
@@ -856,275 +856,1968 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; };
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) });
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: true });
+  defineProperty(
+    GeneratorFunctionPrototype,
+    "constructor",
+    { value: GeneratorFunction, configurable: true }
+  );
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    defineProperty(this, "_invoke", { value: enqueue });
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  });
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per GeneratorResume behavior specified since ES2015:
+        // ES2015 spec, step 3: https://262.ecma-international.org/6.0/#sec-generatorresume
+        // Latest spec, step 2: https://tc39.es/ecma262/#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var methodName = context.method;
+    var method = delegate.iterator[methodName];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method, or a missing .next method, always terminate the
+      // yield* loop.
+      context.delegate = null;
+
+      // Note: ["return"] must be used for ES3 parsing compatibility.
+      if (methodName === "throw" && delegate.iterator["return"]) {
+        // If the delegate iterator has a return method, give it a
+        // chance to clean up.
+        context.method = "return";
+        context.arg = undefined;
+        maybeInvokeDelegate(delegate, context);
+
+        if (context.method === "throw") {
+          // If maybeInvokeDelegate(context) changed context.method from
+          // "return" to "throw", let that override the TypeError below.
+          return ContinueSentinel;
+        }
+      }
+      if (methodName !== "return") {
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a '" + methodName + "' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  define(Gp, iteratorSymbol, function() {
+    return this;
+  });
+
+  define(Gp, "toString", function() {
+    return "[object Generator]";
+  });
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(val) {
+    var object = Object(val);
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable != null) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    throw new TypeError(typeof iterable + " is not iterable");
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+  typeof module === "object" ? module.exports : {}
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (factory((global.WHATWGFetch = {})));
+}(this, (function (exports) { 'use strict';
+
+  /* eslint-disable no-prototype-builtins */
+  var g =
+    (typeof globalThis !== 'undefined' && globalThis) ||
+    (typeof self !== 'undefined' && self) ||
+    // eslint-disable-next-line no-undef
+    (typeof global !== 'undefined' && global) ||
+    {};
+
+  var support = {
+    searchParams: 'URLSearchParams' in g,
+    iterable: 'Symbol' in g && 'iterator' in Symbol,
+    blob:
+      'FileReader' in g &&
+      'Blob' in g &&
+      (function() {
+        try {
+          new Blob();
+          return true
+        } catch (e) {
+          return false
+        }
+      })(),
+    formData: 'FormData' in g,
+    arrayBuffer: 'ArrayBuffer' in g
+  };
+
+  function isDataView(obj) {
+    return obj && DataView.prototype.isPrototypeOf(obj)
+  }
+
+  if (support.arrayBuffer) {
+    var viewClasses = [
+      '[object Int8Array]',
+      '[object Uint8Array]',
+      '[object Uint8ClampedArray]',
+      '[object Int16Array]',
+      '[object Uint16Array]',
+      '[object Int32Array]',
+      '[object Uint32Array]',
+      '[object Float32Array]',
+      '[object Float64Array]'
+    ];
+
+    var isArrayBufferView =
+      ArrayBuffer.isView ||
+      function(obj) {
+        return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+      };
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name);
+    }
+    if (/[^a-z0-9\-#$%&'*+.^_`|~!]/i.test(name) || name === '') {
+      throw new TypeError('Invalid character in header field name: "' + name + '"')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value);
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift();
+        return {done: value === undefined, value: value}
+      }
+    };
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      };
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {};
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value);
+      }, this);
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        if (header.length != 2) {
+          throw new TypeError('Headers constructor: expected name/value pair to be length 2, found' + header.length)
+        }
+        this.append(header[0], header[1]);
+      }, this);
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name]);
+      }, this);
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name);
+    value = normalizeValue(value);
+    var oldValue = this.map[name];
+    this.map[name] = oldValue ? oldValue + ', ' + value : value;
+  };
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)];
+  };
+
+  Headers.prototype.get = function(name) {
+    name = normalizeName(name);
+    return this.has(name) ? this.map[name] : null
+  };
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  };
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = normalizeValue(value);
+  };
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    for (var name in this.map) {
+      if (this.map.hasOwnProperty(name)) {
+        callback.call(thisArg, this.map[name], name, this);
+      }
+    }
+  };
+
+  Headers.prototype.keys = function() {
+    var items = [];
+    this.forEach(function(value, name) {
+      items.push(name);
+    });
+    return iteratorFor(items)
+  };
+
+  Headers.prototype.values = function() {
+    var items = [];
+    this.forEach(function(value) {
+      items.push(value);
+    });
+    return iteratorFor(items)
+  };
+
+  Headers.prototype.entries = function() {
+    var items = [];
+    this.forEach(function(value, name) {
+      items.push([name, value]);
+    });
+    return iteratorFor(items)
+  };
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries;
+  }
+
+  function consumed(body) {
+    if (body._noBody) return
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true;
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result);
+      };
+      reader.onerror = function() {
+        reject(reader.error);
+      };
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader();
+    var promise = fileReaderReady(reader);
+    reader.readAsArrayBuffer(blob);
+    return promise
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader();
+    var promise = fileReaderReady(reader);
+    var match = /charset=([A-Za-z0-9_-]+)/.exec(blob.type);
+    var encoding = match ? match[1] : 'utf-8';
+    reader.readAsText(blob, encoding);
+    return promise
+  }
+
+  function readArrayBufferAsText(buf) {
+    var view = new Uint8Array(buf);
+    var chars = new Array(view.length);
+
+    for (var i = 0; i < view.length; i++) {
+      chars[i] = String.fromCharCode(view[i]);
+    }
+    return chars.join('')
+  }
+
+  function bufferClone(buf) {
+    if (buf.slice) {
+      return buf.slice(0)
+    } else {
+      var view = new Uint8Array(buf.byteLength);
+      view.set(new Uint8Array(buf));
+      return view.buffer
+    }
+  }
+
+  function Body() {
+    this.bodyUsed = false;
+
+    this._initBody = function(body) {
+      /*
+        fetch-mock wraps the Response object in an ES6 Proxy to
+        provide useful test harness features such as flush. However, on
+        ES5 browsers without fetch or Proxy support pollyfills must be used;
+        the proxy-pollyfill is unable to proxy an attribute unless it exists
+        on the object before the Proxy is created. This change ensures
+        Response.bodyUsed exists on the instance, while maintaining the
+        semantic of setting Request.bodyUsed in the constructor before
+        _initBody is called.
+      */
+      // eslint-disable-next-line no-self-assign
+      this.bodyUsed = this.bodyUsed;
+      this._bodyInit = body;
+      if (!body) {
+        this._noBody = true;
+        this._bodyText = '';
+      } else if (typeof body === 'string') {
+        this._bodyText = body;
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body;
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body;
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString();
+      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+        this._bodyArrayBuffer = bufferClone(body.buffer);
+        // IE 10-11 can't handle a DataView body.
+        this._bodyInit = new Blob([this._bodyArrayBuffer]);
+      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+        this._bodyArrayBuffer = bufferClone(body);
+      } else {
+        this._bodyText = body = Object.prototype.toString.call(body);
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8');
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type);
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        }
+      }
+    };
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this);
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyArrayBuffer) {
+          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      };
+    }
+
+    this.arrayBuffer = function() {
+      if (this._bodyArrayBuffer) {
+        var isConsumed = consumed(this);
+        if (isConsumed) {
+          return isConsumed
+        } else if (ArrayBuffer.isView(this._bodyArrayBuffer)) {
+          return Promise.resolve(
+            this._bodyArrayBuffer.buffer.slice(
+              this._bodyArrayBuffer.byteOffset,
+              this._bodyArrayBuffer.byteOffset + this._bodyArrayBuffer.byteLength
+            )
+          )
+        } else {
+          return Promise.resolve(this._bodyArrayBuffer)
+        }
+      } else if (support.blob) {
+        return this.blob().then(readBlobAsArrayBuffer)
+      } else {
+        throw new Error('could not read as ArrayBuffer')
+      }
+    };
+
+    this.text = function() {
+      var rejected = consumed(this);
+      if (rejected) {
+        return rejected
+      }
+
+      if (this._bodyBlob) {
+        return readBlobAsText(this._bodyBlob)
+      } else if (this._bodyArrayBuffer) {
+        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+      } else if (this._bodyFormData) {
+        throw new Error('could not read FormData body as text')
+      } else {
+        return Promise.resolve(this._bodyText)
+      }
+    };
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      };
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    };
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['CONNECT', 'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PATCH', 'POST', 'PUT', 'TRACE'];
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase();
+    return methods.indexOf(upcased) > -1 ? upcased : method
+  }
+
+  function Request(input, options) {
+    if (!(this instanceof Request)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.')
+    }
+
+    options = options || {};
+    var body = options.body;
+
+    if (input instanceof Request) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url;
+      this.credentials = input.credentials;
+      if (!options.headers) {
+        this.headers = new Headers(input.headers);
+      }
+      this.method = input.method;
+      this.mode = input.mode;
+      this.signal = input.signal;
+      if (!body && input._bodyInit != null) {
+        body = input._bodyInit;
+        input.bodyUsed = true;
+      }
+    } else {
+      this.url = String(input);
+    }
+
+    this.credentials = options.credentials || this.credentials || 'same-origin';
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers);
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET');
+    this.mode = options.mode || this.mode || null;
+    this.signal = options.signal || this.signal || (function () {
+      if ('AbortController' in g) {
+        var ctrl = new AbortController();
+        return ctrl.signal;
+      }
+    }());
+    this.referrer = null;
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body);
+
+    if (this.method === 'GET' || this.method === 'HEAD') {
+      if (options.cache === 'no-store' || options.cache === 'no-cache') {
+        // Search for a '_' parameter in the query string
+        var reParamSearch = /([?&])_=[^&]*/;
+        if (reParamSearch.test(this.url)) {
+          // If it already exists then set the value with the current time
+          this.url = this.url.replace(reParamSearch, '$1_=' + new Date().getTime());
+        } else {
+          // Otherwise add a new '_' parameter to the end with the current time
+          var reQueryString = /\?/;
+          this.url += (reQueryString.test(this.url) ? '&' : '?') + '_=' + new Date().getTime();
+        }
+      }
+    }
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this, {body: this._bodyInit})
+  };
+
+  function decode(body) {
+    var form = new FormData();
+    body
+      .trim()
+      .split('&')
+      .forEach(function(bytes) {
+        if (bytes) {
+          var split = bytes.split('=');
+          var name = split.shift().replace(/\+/g, ' ');
+          var value = split.join('=').replace(/\+/g, ' ');
+          form.append(decodeURIComponent(name), decodeURIComponent(value));
+        }
+      });
+    return form
+  }
+
+  function parseHeaders(rawHeaders) {
+    var headers = new Headers();
+    // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
+    // https://tools.ietf.org/html/rfc7230#section-3.2
+    var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' ');
+    // Avoiding split via regex to work around a common IE11 bug with the core-js 3.6.0 regex polyfill
+    // https://github.com/github/fetch/issues/748
+    // https://github.com/zloirock/core-js/issues/751
+    preProcessedHeaders
+      .split('\r')
+      .map(function(header) {
+        return header.indexOf('\n') === 0 ? header.substr(1, header.length) : header
+      })
+      .forEach(function(line) {
+        var parts = line.split(':');
+        var key = parts.shift().trim();
+        if (key) {
+          var value = parts.join(':').trim();
+          try {
+            headers.append(key, value);
+          } catch (error) {
+            console.warn('Response ' + error.message);
+          }
+        }
+      });
+    return headers
+  }
+
+  Body.call(Request.prototype);
+
+  function Response(bodyInit, options) {
+    if (!(this instanceof Response)) {
+      throw new TypeError('Please use the "new" operator, this DOM object constructor cannot be called as a function.')
+    }
+    if (!options) {
+      options = {};
+    }
+
+    this.type = 'default';
+    this.status = options.status === undefined ? 200 : options.status;
+    if (this.status < 200 || this.status > 599) {
+      throw new RangeError("Failed to construct 'Response': The status provided (0) is outside the range [200, 599].")
+    }
+    this.ok = this.status >= 200 && this.status < 300;
+    this.statusText = options.statusText === undefined ? '' : '' + options.statusText;
+    this.headers = new Headers(options.headers);
+    this.url = options.url || '';
+    this._initBody(bodyInit);
+  }
+
+  Body.call(Response.prototype);
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  };
+
+  Response.error = function() {
+    var response = new Response(null, {status: 200, statusText: ''});
+    response.ok = false;
+    response.status = 0;
+    response.type = 'error';
+    return response
+  };
+
+  var redirectStatuses = [301, 302, 303, 307, 308];
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  };
+
+  exports.DOMException = g.DOMException;
+  try {
+    new exports.DOMException();
+  } catch (err) {
+    exports.DOMException = function(message, name) {
+      this.message = message;
+      this.name = name;
+      var error = Error(message);
+      this.stack = error.stack;
+    };
+    exports.DOMException.prototype = Object.create(Error.prototype);
+    exports.DOMException.prototype.constructor = exports.DOMException;
+  }
+
+  function fetch(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request = new Request(input, init);
+
+      if (request.signal && request.signal.aborted) {
+        return reject(new exports.DOMException('Aborted', 'AbortError'))
+      }
+
+      var xhr = new XMLHttpRequest();
+
+      function abortXhr() {
+        xhr.abort();
+      }
+
+      xhr.onload = function() {
+        var options = {
+          statusText: xhr.statusText,
+          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+        };
+        // This check if specifically for when a user fetches a file locally from the file system
+        // Only if the status is out of a normal range
+        if (request.url.indexOf('file://') === 0 && (xhr.status < 200 || xhr.status > 599)) {
+          options.status = 200;
+        } else {
+          options.status = xhr.status;
+        }
+        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
+        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+        setTimeout(function() {
+          resolve(new Response(body, options));
+        }, 0);
+      };
+
+      xhr.onerror = function() {
+        setTimeout(function() {
+          reject(new TypeError('Network request failed'));
+        }, 0);
+      };
+
+      xhr.ontimeout = function() {
+        setTimeout(function() {
+          reject(new TypeError('Network request timed out'));
+        }, 0);
+      };
+
+      xhr.onabort = function() {
+        setTimeout(function() {
+          reject(new exports.DOMException('Aborted', 'AbortError'));
+        }, 0);
+      };
+
+      function fixUrl(url) {
+        try {
+          return url === '' && g.location.href ? g.location.href : url
+        } catch (e) {
+          return url
+        }
+      }
+
+      xhr.open(request.method, fixUrl(request.url), true);
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true;
+      } else if (request.credentials === 'omit') {
+        xhr.withCredentials = false;
+      }
+
+      if ('responseType' in xhr) {
+        if (support.blob) {
+          xhr.responseType = 'blob';
+        } else if (
+          support.arrayBuffer
+        ) {
+          xhr.responseType = 'arraybuffer';
+        }
+      }
+
+      if (init && typeof init.headers === 'object' && !(init.headers instanceof Headers || (g.Headers && init.headers instanceof g.Headers))) {
+        var names = [];
+        Object.getOwnPropertyNames(init.headers).forEach(function(name) {
+          names.push(normalizeName(name));
+          xhr.setRequestHeader(name, normalizeValue(init.headers[name]));
+        });
+        request.headers.forEach(function(value, name) {
+          if (names.indexOf(name) === -1) {
+            xhr.setRequestHeader(name, value);
+          }
+        });
+      } else {
+        request.headers.forEach(function(value, name) {
+          xhr.setRequestHeader(name, value);
+        });
+      }
+
+      if (request.signal) {
+        request.signal.addEventListener('abort', abortXhr);
+
+        xhr.onreadystatechange = function() {
+          // DONE (success or failure)
+          if (xhr.readyState === 4) {
+            request.signal.removeEventListener('abort', abortXhr);
+          }
+        };
+      }
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
+    })
+  }
+
+  fetch.polyfill = true;
+
+  if (!g.fetch) {
+    g.fetch = fetch;
+    g.Headers = Headers;
+    g.Request = Request;
+    g.Response = Response;
+  }
+
+  exports.Headers = Headers;
+  exports.Request = Request;
+  exports.Response = Response;
+  exports.fetch = fetch;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
+
+// Polyfill window.fetch if not available
+if (!window.fetch && window.WHATWGFetch) {
+  window.fetch = window.WHATWGFetch.fetch;
+  window.Headers = window.WHATWGFetch.Headers;
+  window.Request = window.WHATWGFetch.Request;
+  window.Response = window.WHATWGFetch.Response;
+}
+
+</script>
+<script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // ─── CONFIGURACIÓN POWER AUTOMATE ─────────────────────────────────────────
-const CONFIG = {
+var CONFIG = {
   POWER_AUTOMATE_URL: "https://default4c5c9cf1d6be4ebbbab55a0f831527.e6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/9341e22e9cb743c2aa87572681558db9/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=jVBiuODC-XGsIRYhb_1hI7b2O9Q9RlK9wTLR_t-z4nk",
   CORREO_FIJO: "samiranda@sitrans.cl"
 };
 
 // ─── DATOS DE LAS SECCIONES ───────────────────────────────────────────────
-const SECCIONES = [
-  {
-    id: 1,
-    titulo: "Operatividad de dispositivos de alerta visual (balizas)",
-    descripcion: "La baliza es nuestro control de ingeniería crítico para la segregación y advertencia visual de energía en el andén. Queda estrictamente prohibido normalizar la falla de estos componentes.\n\nAcción: Si durante la inspección visual o la operación detectan que una baliza no funciona, se debe detener la interacción en esa zona específica y dar aviso inmediato al supervisor para su reemplazo."
-  },
-  {
-    id: 2,
-    titulo: "Protocolo de conexión, desconexión y aseguramiento mecánico",
-    descripcion: "La manipulación de los sistemas reefer involucra media/baja tensión con alta corriente, lo que expone al trabajador a riesgos de arco eléctrico y contacto directo o indirecto.\n\nToda maniobra de conexión o desconexión debe realizarse con el EPP dieléctrico mandatorio.\n\nUso de Roscas de Seguridad: Es obligatorio asegurar y ajustar por completo las roscas de fijación del enchufe. Esto garantiza el índice de protección (IP) contra la humedad o el agua, evita el desgaste por tracción mecánica y previene desconexiones accidentales."
-  },
-  {
-    id: 3,
-    titulo: "Conexiones en niveles superiores por saturación de espacio",
-    descripcion: "Cuando la capacidad del nivel está copada, la operación exige posicionar y energizar estructuras en niveles superiores o inferiores.\n\nAnte la necesidad de conectar un contenedor en nivel superior o inferior por falta de espacio en la base, es obligatorio dar aviso previo a la supervisión. Esto asegura que la maniobra cuente con la planificación de trabajo en altura física adecuada y mantenga la trazabilidad de la carga de forma segura."
-  },
-  {
-    id: 4,
-    titulo: "Detección de tomas desenergizadas (enchufes sin energía)",
-    descripcion: "Un enchufe sin suministro eléctrico no solo es una falla operacional, sino un riesgo potencial si se asume erróneamente que la línea está bloqueada o desenergizada por mantenimiento.\n\nSi al realizar una conexión se identifica que la toma no tiene energía, se debe dar aviso inmediato y levantar el reporte técnico. Reconectar el contenedor en otro enchufe para salvaguardar la cadena de frío."
-  },
-  {
-    id: 5,
-    titulo: "Housekeeping integral: orden y limpieza del andén completo",
-    descripcion: "El estándar de orden y limpieza no es sectorizado; se evalúa a nivel de andén completo.\n\nLas vías de tránsito peatonal, las zonas de maniobra y los accesos a los tableros deben estar permanentemente despejados. Los cables deben quedar ordenados y protegidos, y no se permite la acumulación de residuos o elementos que obstruyan las rutas de evacuación.\n\nEsto también contempla los residuos de etiquetados en cada andén hay un basurero en el primer nivel."
-  },
-  {
-    id: 6,
-    titulo: "Gestión de condiciones subestándares con el área de infraestructura",
-    descripcion: "El desgaste acelerado por el ambiente industrial y salino exige un mantenimiento preventivo riguroso de las instalaciones fijas.\n\nTodo trabajador que identifique daños mecánicos en las cajas de enchufes, sulfatación en las tomas, o deterioros estructurales en barandas, rejillas y escaleras del andén, tiene la responsabilidad de dar aviso formal e inmediato para derivar el requerimiento al área de Infraestructura.\n\nLa seguridad la hacemos visible mediante el reporte oportuno de incidentes en DataScope."
-  }
-];
+var SECCIONES = [{
+  id: 1,
+  titulo: "Operatividad de Dispositivos de Alerta Visual (Balizas)",
+  descripcion: "La baliza es nuestro control de ingeniería crítico para la segregación y advertencia visual de energía en el andén. Queda estrictamente prohibido normalizar la falla de estos componentes.\n\nAcción: Si durante la inspección visual o la operación detectan que una baliza no funciona, se debe detener la interacción en esa zona específica y dar aviso inmediato al supervisor para su reemplazo."
+}, {
+  id: 2,
+  titulo: "Protocolo de Conexión, Desconexión y Aseguramiento Mecánico",
+  descripcion: "La manipulación de los sistemas reefer involucra media/baja tensión con alta corriente, lo que expone al trabajador a riesgos de arco eléctrico y contacto directo o indirecto.\n\nToda maniobra de conexión o desconexión debe realizarse con el EPP dieléctrico mandatorio.\n\nUso de Roscas de Seguridad: Es obligatorio asegurar y ajustar por completo las roscas de fijación del enchufe. Esto garantiza el índice de protección (IP) contra la humedad o el agua, evita el desgaste por tracción mecánica y previene desconexiones accidentales."
+}, {
+  id: 3,
+  titulo: "Conexiones en Niveles Superiores por Saturación de Espacio",
+  descripcion: "Cuando la capacidad del nivel está copada, la operación exige posicionar y energizar estructuras en niveles superiores o inferiores.\n\nAnte la necesidad de conectar un contenedor en nivel superior o inferior por falta de espacio en la base, es obligatorio dar aviso previo a la supervisión. Esto asegura que la maniobra cuente con la planificación de trabajo en altura física adecuada y mantenga la trazabilidad de la carga de forma segura."
+}, {
+  id: 4,
+  titulo: "Detección de Tomas Desenergizadas (Enchufes sin Energía)",
+  descripcion: "Un enchufe sin suministro eléctrico no solo es una falla operacional, sino un riesgo potencial si se asume erróneamente que la línea está bloqueada o desenergizada por mantenimiento.\n\nSi al realizar una conexión se identifica que la toma no tiene energía, se debe dar aviso inmediato y levantar el reporte técnico. Reconectar el contenedor en otro enchufe para salvaguardar la cadena de frío."
+}, {
+  id: 5,
+  titulo: "Housekeeping Integral: Orden y Limpieza del Andén Completo",
+  descripcion: "El estándar de orden y limpieza no es sectorizado; se evalúa a nivel de andén completo.\n\nLas vías de tránsito peatonal, las zonas de maniobra y los accesos a los tableros deben estar permanentemente despejados. Los cables deben quedar ordenados y protegidos, y no se permite la acumulación de residuos o elementos que obstruyan las rutas de evacuación.\n\nEsto también contempla los residuos de etiquetados — en cada andén hay un basurero en el primer nivel."
+}, {
+  id: 6,
+  titulo: "Gestión de Condiciones Subestándares con el Área de Infraestructura",
+  descripcion: "El desgaste acelerado por el ambiente industrial y salino exige un mantenimiento preventivo riguroso de las instalaciones fijas.\n\nTodo trabajador que identifique daños mecánicos en las cajas de enchufes, sulfatación en las tomas, o deterioros estructurales en barandas, rejillas y escaleras del andén, tiene la responsabilidad de dar aviso formal e inmediato para derivar el requerimiento al área de Infraestructura.\n\nLa seguridad la hacemos visible mediante el reporte oportuno de incidentes en DataScope."
+}];
 
 // ─── ESTADO GLOBAL ────────────────────────────────────────────────────────
-const estado = { secciones: {}, fotos: {}, cola: [], borradores: [] };
-let deferredInstallPrompt = null;
-let timerGuardado = null;
+var estado = {
+  secciones: {},
+  fotos: {},
+  cola: [],
+  borradores: []
+};
+var deferredInstallPrompt = null;
+var timerGuardado = null;
 
 // ─── ALMACENAMIENTO INDEXEDDB ─────────────────────────────────────────────
-const Almacen = {
+var Almacen = {
   db: null,
   DB_NAME: 'InspeccionReeferDB',
   DB_VERSION: 2,
-  open() {
-    return new Promise((resolve, reject) => {
-      if (this.db) return resolve(this.db);
-      const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
-      req.onupgradeneeded = (e) => {
-        const db = e.target.result;
-        if (!db.objectStoreNames.contains('borrador'))   db.createObjectStore('borrador');
-        if (!db.objectStoreNames.contains('cola'))       db.createObjectStore('cola');
+  open: function open() {
+    var _this = this;
+    return new Promise(function (resolve, reject) {
+      if (_this.db) return resolve(_this.db);
+      var req = indexedDB.open(_this.DB_NAME, _this.DB_VERSION);
+      req.onupgradeneeded = function (e) {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('borrador')) db.createObjectStore('borrador');
+        if (!db.objectStoreNames.contains('cola')) db.createObjectStore('cola');
         if (!db.objectStoreNames.contains('borradores')) db.createObjectStore('borradores');
       };
-      req.onsuccess = () => { this.db = req.result; resolve(this.db); };
-      req.onerror  = () => reject(req.error);
+      req.onsuccess = function () {
+        _this.db = req.result;
+        resolve(_this.db);
+      };
+      req.onerror = function () {
+        return reject(req.error);
+      };
     });
   },
-  async get(store, key) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx  = db.transaction(store, 'readonly');
-      const req = tx.objectStore(store).get(key);
-      req.onsuccess = () => resolve(req.result !== undefined ? req.result : null);
-      req.onerror   = () => reject(req.error);
-    });
+  get: function get(store, key) {
+    var _this2 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var db;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            _context.n = 1;
+            return _this2.open();
+          case 1:
+            db = _context.v;
+            return _context.a(2, new Promise(function (resolve, reject) {
+              var tx = db.transaction(store, 'readonly');
+              var req = tx.objectStore(store).get(key);
+              req.onsuccess = function () {
+                return resolve(req.result !== undefined ? req.result : null);
+              };
+              req.onerror = function () {
+                return reject(req.error);
+              };
+            }));
+        }
+      }, _callee);
+    }))();
   },
-  async set(store, key, value) {
-    const db = await this.open();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(store, 'readwrite');
-      tx.objectStore(store).put(value, key);
-      tx.oncomplete = () => resolve();
-      tx.onerror    = () => reject(tx.error);
-    });
+  set: function set(store, key, value) {
+    var _this3 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var db;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.n) {
+          case 0:
+            _context2.n = 1;
+            return _this3.open();
+          case 1:
+            db = _context2.v;
+            return _context2.a(2, new Promise(function (resolve, reject) {
+              var tx = db.transaction(store, 'readwrite');
+              tx.objectStore(store).put(value, key);
+              tx.oncomplete = function () {
+                return resolve();
+              };
+              tx.onerror = function () {
+                return reject(tx.error);
+              };
+            }));
+        }
+      }, _callee2);
+    }))();
   },
-  async init() {
-    await this.open();
-    if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch (_) {} }
-    await this.migrarDesdeLocalStorage();
+  init: function init() {
+    var _this4 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+      var _t;
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.p = _context3.n) {
+          case 0:
+            _context3.n = 1;
+            return _this4.open();
+          case 1:
+            if (!(navigator.storage && navigator.storage.persist)) {
+              _context3.n = 5;
+              break;
+            }
+            _context3.p = 2;
+            _context3.n = 3;
+            return navigator.storage.persist();
+          case 3:
+            _context3.n = 5;
+            break;
+          case 4:
+            _context3.p = 4;
+            _t = _context3.v;
+          case 5:
+            _context3.n = 6;
+            return _this4.migrarDesdeLocalStorage();
+          case 6:
+            return _context3.a(2);
+        }
+      }, _callee3, null, [[2, 4]]);
+    }))();
   },
-  async migrarDesdeLocalStorage() {
-    try {
-      const borradorLS  = localStorage.getItem('borrador_inspeccion');
-      const colaLS      = localStorage.getItem('cola_inspecciones');
-      const borradorIDB = await this.get('borrador', 'actual');
-      const colaIDB     = await this.get('cola', 'items');
-      if (borradorLS && !borradorIDB) { await this.set('borrador', 'actual', JSON.parse(borradorLS)); localStorage.removeItem('borrador_inspeccion'); }
-      if (colaLS && (!colaIDB || !colaIDB.length)) { await this.set('cola', 'items', JSON.parse(colaLS)); localStorage.removeItem('cola_inspecciones'); }
-    } catch (e) { console.warn('Migración localStorage:', e); }
+  migrarDesdeLocalStorage: function migrarDesdeLocalStorage() {
+    var _this5 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+      var borradorLS, colaLS, borradorIDB, colaIDB, _t2;
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.p = _context4.n) {
+          case 0:
+            _context4.p = 0;
+            borradorLS = localStorage.getItem('borrador_inspeccion');
+            colaLS = localStorage.getItem('cola_inspecciones');
+            _context4.n = 1;
+            return _this5.get('borrador', 'actual');
+          case 1:
+            borradorIDB = _context4.v;
+            _context4.n = 2;
+            return _this5.get('cola', 'items');
+          case 2:
+            colaIDB = _context4.v;
+            if (!(borradorLS && !borradorIDB)) {
+              _context4.n = 4;
+              break;
+            }
+            _context4.n = 3;
+            return _this5.set('borrador', 'actual', JSON.parse(borradorLS));
+          case 3:
+            localStorage.removeItem('borrador_inspeccion');
+          case 4:
+            if (!(colaLS && (!colaIDB || !colaIDB.length))) {
+              _context4.n = 6;
+              break;
+            }
+            _context4.n = 5;
+            return _this5.set('cola', 'items', JSON.parse(colaLS));
+          case 5:
+            localStorage.removeItem('cola_inspecciones');
+          case 6:
+            _context4.n = 8;
+            break;
+          case 7:
+            _context4.p = 7;
+            _t2 = _context4.v;
+            console.warn('Migración localStorage:', _t2);
+          case 8:
+            return _context4.a(2);
+        }
+      }, _callee4, null, [[0, 7]]);
+    }))();
   },
-  async guardarBorrador(datos) { await this.set('borrador', 'actual', datos); },
-  async cargarBorrador()       { return this.get('borrador', 'actual'); },
-  async guardarCola(cola)      { await this.set('cola', 'items', cola); },
-  async cargarCola()           { return (await this.get('cola', 'items')) || []; },
-  async guardarListaBorradores(lista) { await this.set('borradores', 'lista', lista); },
-  async cargarListaBorradores()       { return (await this.get('borradores', 'lista')) || []; }
-};
-
-async function persistirCola() {
-  await Almacen.guardarCola(estado.cola);
-  renderizarPanel();
-  actualizarBannerCola();
-  await actualizarIndicadorAlmacen();
-}
-
-// ─── INICIALIZACIÓN ───────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async () => {
-  const ahora = new Date();
-  document.getElementById('fecha').value = ahora.toISOString().slice(0,16);
-  document.getElementById('fecha-header').textContent =
-    ahora.toLocaleDateString('es-CL', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-
-  renderizarSecciones();
-
-  try {
-    await Almacen.init();
-    estado.cola       = await Almacen.cargarCola();
-    estado.borradores = await Almacen.cargarListaBorradores();
-    await cargarBorrador();
-    renderizarPanel();
-    await actualizarIndicadorAlmacen();
-  } catch (e) {
-    console.error('Error al iniciar almacenamiento:', e);
-    mostrarToast('No se pudo iniciar almacenamiento local', 'error');
+  guardarBorrador: function guardarBorrador(datos) {
+    var _this6 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5() {
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
+          case 0:
+            _context5.n = 1;
+            return _this6.set('borrador', 'actual', datos);
+          case 1:
+            return _context5.a(2);
+        }
+      }, _callee5);
+    }))();
+  },
+  cargarBorrador: function cargarBorrador() {
+    var _this7 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6() {
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.n) {
+          case 0:
+            return _context6.a(2, _this7.get('borrador', 'actual'));
+        }
+      }, _callee6);
+    }))();
+  },
+  guardarCola: function guardarCola(cola) {
+    var _this8 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.n) {
+          case 0:
+            _context7.n = 1;
+            return _this8.set('cola', 'items', cola);
+          case 1:
+            return _context7.a(2);
+        }
+      }, _callee7);
+    }))();
+  },
+  cargarCola: function cargarCola() {
+    var _this9 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+      var _t3;
+      return _regenerator().w(function (_context8) {
+        while (1) switch (_context8.n) {
+          case 0:
+            _context8.n = 1;
+            return _this9.get('cola', 'items');
+          case 1:
+            _t3 = _context8.v;
+            if (_t3) {
+              _context8.n = 2;
+              break;
+            }
+            _t3 = [];
+          case 2:
+            return _context8.a(2, _t3);
+        }
+      }, _callee8);
+    }))();
+  },
+  guardarListaBorradores: function guardarListaBorradores(lista) {
+    var _this0 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
+      return _regenerator().w(function (_context9) {
+        while (1) switch (_context9.n) {
+          case 0:
+            _context9.n = 1;
+            return _this0.set('borradores', 'lista', lista);
+          case 1:
+            return _context9.a(2);
+        }
+      }, _callee9);
+    }))();
+  },
+  cargarListaBorradores: function cargarListaBorradores() {
+    var _this1 = this;
+    return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee0() {
+      var _t4;
+      return _regenerator().w(function (_context0) {
+        while (1) switch (_context0.n) {
+          case 0:
+            _context0.n = 1;
+            return _this1.get('borradores', 'lista');
+          case 1:
+            _t4 = _context0.v;
+            if (_t4) {
+              _context0.n = 2;
+              break;
+            }
+            _t4 = [];
+          case 2:
+            return _context0.a(2, _t4);
+        }
+      }, _callee0);
+    }))();
   }
-
-  actualizarEstadoConexion();
-  configurarInstalacionPWA();
-  registrarServiceWorker();
-
-  window.addEventListener('online',  () => { actualizarEstadoConexion(); intentarEnviarCola(false); });
-  window.addEventListener('offline', actualizarEstadoConexion);
-});
-
-//  RENDER SECCIONES 
-function renderizarSecciones() {
-  const container = document.getElementById('secciones-container');
-  container.innerHTML = SECCIONES.map(s => `
-    <div class="seccion" id="sec-${s.id}">
-      <div class="seccion-header">
-        <div class="seccion-num" id="num-${s.id}">${s.id}</div>
-        <div class="seccion-titulo">
-          <h3>${s.titulo}</h3>
-        </div>
-      </div>
-      <div class="seccion-body">
-        <div class="seccion-descripcion" id="desc-${s.id}">${s.descripcion.replace(/\n/g,'<br>')}</div>
-        <div class="campo-fotos">
-          <div class="campo-label">Fotografías de evidencia</div>
-          <div class="fotos-grid" id="fotos-grid-${s.id}">
-            <div class="btn-agregar-foto" onclick="document.getElementById('file-${s.id}').click()">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span>Agregar foto</span>
-            </div>
-          </div>
-          <input type="file" id="file-${s.id}" accept="image/*" multiple onchange="procesarFotos(${s.id}, this)">
-        </div>
-        <div class="separador"></div>
-        <div class="campo-obs">
-          <label>Observaciones</label>
-          <textarea id="obs-${s.id}" placeholder="Describa lo observado en este punto..." oninput="guardarBorradorSilencioso()"></textarea>
-        </div>
-        <div class="separador"></div>
-        <div class="campo-estado">
-          <div class="campo-label">Estado del punto</div>
-          <div class="opciones-estado">
-            <div class="opcion-estado conforme"    onclick="seleccionarEstado(${s.id}, 'Conforme')">Conforme</div>
-            <div class="opcion-estado no-conforme" onclick="seleccionarEstado(${s.id}, 'No Conforme')">No Conforme</div>
-            <div class="opcion-estado no-aplica"   onclick="seleccionarEstado(${s.id}, 'No Aplica')">No Aplica</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+};
+function persistirCola() {
+  return _persistirCola.apply(this, arguments);
+} // ─── INICIALIZACIÓN ───────────────────────────────────────────────────────
+function _persistirCola() {
+  _persistirCola = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee11() {
+    return _regenerator().w(function (_context11) {
+      while (1) switch (_context11.n) {
+        case 0:
+          _context11.n = 1;
+          return Almacen.guardarCola(estado.cola);
+        case 1:
+          renderizarPanel();
+          actualizarBannerCola();
+          _context11.n = 2;
+          return actualizarIndicadorAlmacen();
+        case 2:
+          return _context11.a(2);
+      }
+    }, _callee11);
+  }));
+  return _persistirCola.apply(this, arguments);
 }
+document.addEventListener('DOMContentLoaded', /*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee1() {
+  var ahora, _t5;
+  return _regenerator().w(function (_context1) {
+    while (1) switch (_context1.p = _context1.n) {
+      case 0:
+        ahora = new Date();
+        document.getElementById('fecha').value = ahora.toISOString().slice(0, 16);
+        document.getElementById('fecha-header').textContent = ahora.toLocaleDateString('es-CL', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        renderizarSecciones();
+        _context1.p = 1;
+        _context1.n = 2;
+        return Almacen.init();
+      case 2:
+        _context1.n = 3;
+        return Almacen.cargarCola();
+      case 3:
+        estado.cola = _context1.v;
+        _context1.n = 4;
+        return Almacen.cargarListaBorradores();
+      case 4:
+        estado.borradores = _context1.v;
+        _context1.n = 5;
+        return cargarBorrador();
+      case 5:
+        renderizarPanel();
+        _context1.n = 6;
+        return actualizarIndicadorAlmacen();
+      case 6:
+        _context1.n = 8;
+        break;
+      case 7:
+        _context1.p = 7;
+        _t5 = _context1.v;
+        console.error('Error al iniciar almacenamiento:', _t5);
+        mostrarToast('No se pudo iniciar almacenamiento local', 'error');
+      case 8:
+        actualizarEstadoConexion();
+        configurarInstalacionPWA();
+        registrarServiceWorker();
+        window.addEventListener('online', function () {
+          actualizarEstadoConexion();
+          intentarEnviarCola(false);
+        });
+        window.addEventListener('offline', actualizarEstadoConexion);
+      case 9:
+        return _context1.a(2);
+    }
+  }, _callee1, null, [[1, 7]]);
+})));
 
+// ─── RENDER SECCIONES ─────────────────────────────────────────────────────
+function renderizarSecciones() {
+  var container = document.getElementById('secciones-container');
+  container.innerHTML = SECCIONES.map(function (s) {
+    return "\n    <div class=\"seccion\" id=\"sec-".concat(s.id, "\">\n      <div class=\"seccion-header\">\n        <div class=\"seccion-num\" id=\"num-").concat(s.id, "\">").concat(s.id, "</div>\n        <div class=\"seccion-titulo\">\n          <h3>").concat(s.titulo, "</h3>\n        </div>\n      </div>\n      <div class=\"seccion-body\">\n        <div class=\"seccion-descripcion\" id=\"desc-").concat(s.id, "\">").concat(s.descripcion.replace(/\n/g, '<br>'), "</div>\n        <div class=\"campo-fotos\">\n          <div class=\"campo-label\">Fotograf\xEDas de evidencia</div>\n          <div class=\"fotos-grid\" id=\"fotos-grid-").concat(s.id, "\">\n            <div class=\"btn-agregar-foto\" onclick=\"document.getElementById('file-").concat(s.id, "').click()\">\n              <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg>\n              <span>Agregar foto</span>\n            </div>\n          </div>\n          <input type=\"file\" id=\"file-").concat(s.id, "\" accept=\"image/*\" multiple onchange=\"procesarFotos(").concat(s.id, ", this)\">\n        </div>\n        <div class=\"separador\"></div>\n        <div class=\"campo-obs\">\n          <label>Observaciones</label>\n          <textarea id=\"obs-").concat(s.id, "\" placeholder=\"Describa lo observado en este punto...\" oninput=\"guardarBorradorSilencioso()\"></textarea>\n        </div>\n        <div class=\"separador\"></div>\n        <div class=\"campo-estado\">\n          <div class=\"campo-label\">Estado del punto</div>\n          <div class=\"opciones-estado\">\n            <div class=\"opcion-estado conforme\"    onclick=\"seleccionarEstado(").concat(s.id, ", 'Conforme')\">Conforme</div>\n            <div class=\"opcion-estado no-conforme\" onclick=\"seleccionarEstado(").concat(s.id, ", 'No Conforme')\">No Conforme</div>\n            <div class=\"opcion-estado no-aplica\"   onclick=\"seleccionarEstado(").concat(s.id, ", 'No Aplica')\">No Aplica</div>\n          </div>\n        </div>\n      </div>\n    </div>\n  ");
+  }).join('');
+}
 function seleccionarEstado(secId, valor) {
   estado.secciones[secId] = valor;
-  const opciones = document.querySelectorAll(`#sec-${secId} .opcion-estado`);
-  opciones.forEach(op => op.classList.remove('seleccionada'));
-  const mapa = { 'Conforme': 0, 'No Conforme': 1, 'No Aplica': 2 };
+  var opciones = document.querySelectorAll("#sec-".concat(secId, " .opcion-estado"));
+  opciones.forEach(function (op) {
+    return op.classList.remove('seleccionada');
+  });
+  var mapa = {
+    'Conforme': 0,
+    'No Conforme': 1,
+    'No Aplica': 2
+  };
   opciones[mapa[valor]].classList.add('seleccionada');
-  document.getElementById(`sec-${secId}`).classList.add('completada');
-  document.getElementById(`num-${secId}`).textContent = '✓';
+  document.getElementById("sec-".concat(secId)).classList.add('completada');
+  document.getElementById("num-".concat(secId)).textContent = '✓';
   actualizarProgreso();
   guardarBorradorSilencioso();
 }
-
 function actualizarProgreso() {
-  const total      = SECCIONES.length;
-  const completadas = Object.keys(estado.secciones).length;
-  const pct        = (completadas / total) * 100;
+  var total = SECCIONES.length;
+  var completadas = Object.keys(estado.secciones).length;
+  var pct = completadas / total * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = `${completadas} / ${total} secciones`;
+  document.getElementById('progress-label').textContent = "".concat(completadas, " / ").concat(total, " secciones");
 }
 
 // ─── FOTOS ────────────────────────────────────────────────────────────────
-const FOTO_MAX_PX  = 1280;
-const FOTO_CALIDAD = 0.75;
-const FOTO_MAX_MB  = 0.4;
-
+var FOTO_MAX_PX = 1280;
+var FOTO_CALIDAD = 0.75;
+var FOTO_MAX_MB = 0.4;
 function comprimirImagen(archivo) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        let { width, height } = img;
+  return new Promise(function (resolve) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var img = new Image();
+      img.onload = function () {
+        var width = img.width,
+          height = img.height;
         if (width > FOTO_MAX_PX || height > FOTO_MAX_PX) {
-          if (width > height) { height = Math.round(height * FOTO_MAX_PX / width); width = FOTO_MAX_PX; }
-          else                { width = Math.round(width * FOTO_MAX_PX / height); height = FOTO_MAX_PX; }
+          if (width > height) {
+            height = Math.round(height * FOTO_MAX_PX / width);
+            width = FOTO_MAX_PX;
+          } else {
+            width = Math.round(width * FOTO_MAX_PX / height);
+            height = FOTO_MAX_PX;
+          }
         }
-        const canvas = document.createElement('canvas');
-        canvas.width = width; canvas.height = height;
-        const ctx = canvas.getContext('2d');
+        var canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        let base64 = canvas.toDataURL('image/jpeg', FOTO_CALIDAD);
-        const bytes = Math.round((base64.length * 3) / 4);
+        var base64 = canvas.toDataURL('image/jpeg', FOTO_CALIDAD);
+        var bytes = Math.round(base64.length * 3 / 4);
         if (bytes > FOTO_MAX_MB * 1024 * 1024) base64 = canvas.toDataURL('image/jpeg', 0.5);
-        resolve({ nombre: archivo.name.replace(/\.[^.]+$/, '.jpg'), base64, tipo: 'image/jpeg', tamaño_kb: Math.round(base64.length * 0.75 / 1024) });
+        resolve({
+          nombre: archivo.name.replace(/\.[^.]+$/, '.jpg'),
+          base64: base64,
+          tipo: 'image/jpeg',
+          tamaño_kb: Math.round(base64.length * 0.75 / 1024)
+        });
       };
       img.src = e.target.result;
     };
     reader.readAsDataURL(archivo);
   });
 }
-
-async function procesarFotos(secId, input) {
-  if (!estado.fotos[secId]) estado.fotos[secId] = [];
-  const archivos = Array.from(input.files);
-  for (const archivo of archivos) {
-    if (estado.fotos[secId].length >= 5) { mostrarToast('Máximo 5 fotos por sección', 'error'); break; }
-    mostrarToast('Comprimiendo imagen...', '');
-    const foto = await comprimirImagen(archivo);
-    estado.fotos[secId].push(foto);
-    renderizarFotos(secId);
-    try { guardarBorradorSilencioso(); }
-    catch (e) {
-      estado.fotos[secId].pop(); renderizarFotos(secId);
-      mostrarToast('Sin espacio — envíe la cola o reduzca fotos', 'error'); break;
-    }
-    mostrarToast(`Foto agregada (${foto.tamaño_kb} KB)`, 'exito');
-  }
-  input.value = '';
-  await actualizarIndicadorAlmacen();
+function procesarFotos(_x, _x2) {
+  return _procesarFotos.apply(this, arguments);
 }
-
+function _procesarFotos() {
+  _procesarFotos = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee12(secId, input) {
+    var archivos, _i, _archivos, archivo, foto, _t7;
+    return _regenerator().w(function (_context12) {
+      while (1) switch (_context12.p = _context12.n) {
+        case 0:
+          if (!estado.fotos[secId]) estado.fotos[secId] = [];
+          archivos = Array.from(input.files);
+          _i = 0, _archivos = archivos;
+        case 1:
+          if (!(_i < _archivos.length)) {
+            _context12.n = 8;
+            break;
+          }
+          archivo = _archivos[_i];
+          if (!(estado.fotos[secId].length >= 5)) {
+            _context12.n = 2;
+            break;
+          }
+          mostrarToast('Máximo 5 fotos por sección', 'error');
+          return _context12.a(3, 8);
+        case 2:
+          mostrarToast('Comprimiendo imagen...', '');
+          _context12.n = 3;
+          return comprimirImagen(archivo);
+        case 3:
+          foto = _context12.v;
+          estado.fotos[secId].push(foto);
+          renderizarFotos(secId);
+          _context12.p = 4;
+          guardarBorradorSilencioso();
+          _context12.n = 6;
+          break;
+        case 5:
+          _context12.p = 5;
+          _t7 = _context12.v;
+          estado.fotos[secId].pop();
+          renderizarFotos(secId);
+          mostrarToast('Sin espacio — envíe la cola o reduzca fotos', 'error');
+          return _context12.a(3, 8);
+        case 6:
+          mostrarToast("Foto agregada (".concat(foto.tamaño_kb, " KB)"), 'exito');
+        case 7:
+          _i++;
+          _context12.n = 1;
+          break;
+        case 8:
+          input.value = '';
+          _context12.n = 9;
+          return actualizarIndicadorAlmacen();
+        case 9:
+          return _context12.a(2);
+      }
+    }, _callee12, null, [[4, 5]]);
+  }));
+  return _procesarFotos.apply(this, arguments);
+}
 function renderizarFotos(secId) {
-  const grid  = document.getElementById(`fotos-grid-${secId}`);
-  const fotos = estado.fotos[secId] || [];
-  grid.innerHTML = fotos.map((f, i) => `
-    <div class="foto-preview">
-      <img src="${f.base64}" alt="Foto ${i+1}">
-      <button class="foto-eliminar" onclick="eliminarFoto(${secId}, ${i})">X</button>
-    </div>
-  `).join('') + `
-    <div class="btn-agregar-foto" onclick="document.getElementById('file-${secId}').click()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span>Agregar foto</span>
-    </div>`;
+  var grid = document.getElementById("fotos-grid-".concat(secId));
+  var fotos = estado.fotos[secId] || [];
+  grid.innerHTML = fotos.map(function (f, i) {
+    return "\n    <div class=\"foto-preview\">\n      <img src=\"".concat(f.base64, "\" alt=\"Foto ").concat(i + 1, "\">\n      <button class=\"foto-eliminar\" onclick=\"eliminarFoto(").concat(secId, ", ").concat(i, ")\">X</button>\n    </div>\n  ");
+  }).join('') + "\n    <div class=\"btn-agregar-foto\" onclick=\"document.getElementById('file-".concat(secId, "').click()\">\n      <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\"/><circle cx=\"12\" cy=\"13\" r=\"4\"/></svg>\n      <span>Agregar foto</span>\n    </div>");
 }
-
 function eliminarFoto(secId, idx) {
   estado.fotos[secId].splice(idx, 1);
   renderizarFotos(secId);
@@ -1133,359 +2826,666 @@ function eliminarFoto(secId, idx) {
 
 // ─── BORRADORES (lista editable) ──────────────────────────────────────────
 // borradorActualId: si estamos editando un borrador guardado, guarda su id
-let borradorActualId = null;
-
-async function guardarBorrador() {
-  try {
-    const datos = recopilarDatos();
-    if (!formularioTieneContenido(datos)) { mostrarToast('Agregue algún dato antes de guardar', 'error'); return; }
-
-    const etiqueta = [
-      datos.anden     ? 'Andén ' + datos.anden : null,
-      datos.inspector || null,
-      datos.fecha     ? datos.fecha.replace('T',' ') : null
-    ].filter(Boolean).join(' · ') || 'Borrador sin título';
-
-    if (borradorActualId !== null) {
-      // Actualizar borrador existente
-      const idx = estado.borradores.findIndex(b => b.id === borradorActualId);
-      if (idx >= 0) {
-        estado.borradores[idx] = { ...estado.borradores[idx], datos, etiqueta, guardadoEn: new Date().toISOString() };
-      }
-    } else {
-      // Nuevo borrador
-      borradorActualId = Date.now();
-      estado.borradores.push({ id: borradorActualId, datos, etiqueta, guardadoEn: new Date().toISOString() });
-    }
-
-    await Almacen.guardarListaBorradores(estado.borradores);
-    await actualizarIndicadorAlmacen();
-    renderizarPanel();
-    mostrarToast('Borrador guardado', 'exito');
-  } catch (e) { console.error(e); mostrarToast('No se pudo guardar el borrador', 'error'); }
+var borradorActualId = null;
+function guardarBorrador() {
+  return _guardarBorrador.apply(this, arguments);
 }
-
+function _guardarBorrador() {
+  _guardarBorrador = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee13() {
+    var datos, etiqueta, idx, _t8;
+    return _regenerator().w(function (_context13) {
+      while (1) switch (_context13.p = _context13.n) {
+        case 0:
+          _context13.p = 0;
+          datos = recopilarDatos();
+          if (formularioTieneContenido(datos)) {
+            _context13.n = 1;
+            break;
+          }
+          mostrarToast('Agregue algún dato antes de guardar', 'error');
+          return _context13.a(2);
+        case 1:
+          etiqueta = [datos.anden ? 'Andén ' + datos.anden : null, datos.inspector || null, datos.fecha ? datos.fecha.replace('T', ' ') : null].filter(Boolean).join(' · ') || 'Borrador sin título';
+          if (borradorActualId !== null) {
+            // Actualizar borrador existente
+            idx = estado.borradores.findIndex(function (b) {
+              return b.id === borradorActualId;
+            });
+            if (idx >= 0) {
+              estado.borradores[idx] = _objectSpread(_objectSpread({}, estado.borradores[idx]), {}, {
+                datos: datos,
+                etiqueta: etiqueta,
+                guardadoEn: new Date().toISOString()
+              });
+            }
+          } else {
+            // Nuevo borrador
+            borradorActualId = Date.now();
+            estado.borradores.push({
+              id: borradorActualId,
+              datos: datos,
+              etiqueta: etiqueta,
+              guardadoEn: new Date().toISOString()
+            });
+          }
+          _context13.n = 2;
+          return Almacen.guardarListaBorradores(estado.borradores);
+        case 2:
+          _context13.n = 3;
+          return actualizarIndicadorAlmacen();
+        case 3:
+          renderizarPanel();
+          mostrarToast('Borrador guardado', 'exito');
+          _context13.n = 5;
+          break;
+        case 4:
+          _context13.p = 4;
+          _t8 = _context13.v;
+          console.error(_t8);
+          mostrarToast('No se pudo guardar el borrador', 'error');
+        case 5:
+          return _context13.a(2);
+      }
+    }, _callee13, null, [[0, 4]]);
+  }));
+  return _guardarBorrador.apply(this, arguments);
+}
 function guardarBorradorSilencioso() {
   // Solo actualiza el borrador activo si ya existe uno guardado
   if (borradorActualId === null) return;
   clearTimeout(timerGuardado);
-  timerGuardado = setTimeout(async () => {
-    try {
-      const datos    = recopilarDatos();
-      const etiqueta = [
-        datos.anden     ? 'Andén ' + datos.anden : null,
-        datos.inspector || null,
-        datos.fecha     ? datos.fecha.replace('T',' ') : null
-      ].filter(Boolean).join(' · ') || 'Borrador sin título';
-      const idx = estado.borradores.findIndex(b => b.id === borradorActualId);
-      if (idx >= 0) {
-        estado.borradores[idx] = { ...estado.borradores[idx], datos, etiqueta, guardadoEn: new Date().toISOString() };
-        await Almacen.guardarListaBorradores(estado.borradores);
-        renderizarPanel();
+  timerGuardado = setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee10() {
+    var datos, etiqueta, idx, _t6;
+    return _regenerator().w(function (_context10) {
+      while (1) switch (_context10.p = _context10.n) {
+        case 0:
+          _context10.p = 0;
+          datos = recopilarDatos();
+          etiqueta = [datos.anden ? 'Andén ' + datos.anden : null, datos.inspector || null, datos.fecha ? datos.fecha.replace('T', ' ') : null].filter(Boolean).join(' · ') || 'Borrador sin título';
+          idx = estado.borradores.findIndex(function (b) {
+            return b.id === borradorActualId;
+          });
+          if (!(idx >= 0)) {
+            _context10.n = 2;
+            break;
+          }
+          estado.borradores[idx] = _objectSpread(_objectSpread({}, estado.borradores[idx]), {}, {
+            datos: datos,
+            etiqueta: etiqueta,
+            guardadoEn: new Date().toISOString()
+          });
+          _context10.n = 1;
+          return Almacen.guardarListaBorradores(estado.borradores);
+        case 1:
+          renderizarPanel();
+        case 2:
+          _context10.n = 4;
+          break;
+        case 3:
+          _context10.p = 3;
+          _t6 = _context10.v;
+          console.warn('Guardado silencioso falló:', _t6);
+        case 4:
+          return _context10.a(2);
       }
-    } catch (e) { console.warn('Guardado silencioso falló:', e); }
-  }, 600);
+    }, _callee10, null, [[0, 3]]);
+  })), 600);
 }
-
-async function abrirBorrador(id) {
-  const borrador = estado.borradores.find(b => b.id === Number(id));
-  if (!borrador) return;
-  borradorActualId = borrador.id;
-  await cargarDatosEnFormulario(borrador.datos);
-  renderizarPanel();
-  mostrarToast('Borrador cargado — puede seguir editando', 'exito');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function abrirBorrador(_x3) {
+  return _abrirBorrador.apply(this, arguments);
 }
-
-async function eliminarBorrador(id) {
-  estado.borradores = estado.borradores.filter(b => b.id !== Number(id));
-  await Almacen.guardarListaBorradores(estado.borradores);
-  if (borradorActualId === Number(id)) borradorActualId = null;
-  renderizarPanel();
-  mostrarToast('Borrador eliminado', '');
+function _abrirBorrador() {
+  _abrirBorrador = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee14(id) {
+    var borrador;
+    return _regenerator().w(function (_context14) {
+      while (1) switch (_context14.n) {
+        case 0:
+          borrador = estado.borradores.find(function (b) {
+            return b.id === Number(id);
+          });
+          if (borrador) {
+            _context14.n = 1;
+            break;
+          }
+          return _context14.a(2);
+        case 1:
+          borradorActualId = borrador.id;
+          _context14.n = 2;
+          return cargarDatosEnFormulario(borrador.datos);
+        case 2:
+          renderizarPanel();
+          mostrarToast('Borrador cargado — puede seguir editando', 'exito');
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        case 3:
+          return _context14.a(2);
+      }
+    }, _callee14);
+  }));
+  return _abrirBorrador.apply(this, arguments);
 }
-
-async function cargarBorrador() {
-  // Carga el último borrador temporal (migración/compatibilidad)
-  let datos = null;
-  try { datos = await Almacen.cargarBorrador(); } catch (e) { console.error(e); return; }
-  if (!datos) return;
-  await cargarDatosEnFormulario(datos);
-  await Almacen.guardarBorrador(null);
+function eliminarBorrador(_x4) {
+  return _eliminarBorrador.apply(this, arguments);
 }
-
-async function cargarDatosEnFormulario(datos) {
-  try {
-    // Limpiar primero
-    estado.secciones = {}; estado.fotos = {};
-    renderizarSecciones();
-
-    if (datos.inspector) document.getElementById('inspector').value = datos.inspector;
-    if (datos.anden)     document.getElementById('anden').value     = datos.anden;
-    if (datos.turno)     document.getElementById('turno').value     = datos.turno;
-    if (datos.fecha)     document.getElementById('fecha').value     = datos.fecha;
-    if (datos.secciones) datos.secciones.forEach(s => {
-      if (s.estado) aplicarEstadoSinAvance(s.numero, s.estado);
-      if (s.observacion) { const obs = document.getElementById('obs-' + s.numero); if (obs) obs.value = s.observacion; }
-    });
-    if (datos.fotos) datos.fotos.forEach(fGroup => {
-      const secId = fGroup.seccion;
-      estado.fotos[secId] = fGroup.imagenes.map(img => ({ nombre: img.nombre, base64: 'data:' + img.tipo + ';base64,' + img.datos, tipo: img.tipo }));
-      renderizarFotos(secId);
-    });
-    actualizarProgreso();
-  } catch (e) { console.error(e); }
+function _eliminarBorrador() {
+  _eliminarBorrador = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee15(id) {
+    return _regenerator().w(function (_context15) {
+      while (1) switch (_context15.n) {
+        case 0:
+          estado.borradores = estado.borradores.filter(function (b) {
+            return b.id !== Number(id);
+          });
+          _context15.n = 1;
+          return Almacen.guardarListaBorradores(estado.borradores);
+        case 1:
+          if (borradorActualId === Number(id)) borradorActualId = null;
+          renderizarPanel();
+          mostrarToast('Borrador eliminado', '');
+        case 2:
+          return _context15.a(2);
+      }
+    }, _callee15);
+  }));
+  return _eliminarBorrador.apply(this, arguments);
 }
-
+function cargarBorrador() {
+  return _cargarBorrador.apply(this, arguments);
+}
+function _cargarBorrador() {
+  _cargarBorrador = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee16() {
+    var datos, _t9;
+    return _regenerator().w(function (_context16) {
+      while (1) switch (_context16.p = _context16.n) {
+        case 0:
+          // Carga el último borrador temporal (migración/compatibilidad)
+          datos = null;
+          _context16.p = 1;
+          _context16.n = 2;
+          return Almacen.cargarBorrador();
+        case 2:
+          datos = _context16.v;
+          _context16.n = 4;
+          break;
+        case 3:
+          _context16.p = 3;
+          _t9 = _context16.v;
+          console.error(_t9);
+          return _context16.a(2);
+        case 4:
+          if (datos) {
+            _context16.n = 5;
+            break;
+          }
+          return _context16.a(2);
+        case 5:
+          _context16.n = 6;
+          return cargarDatosEnFormulario(datos);
+        case 6:
+          _context16.n = 7;
+          return Almacen.guardarBorrador(null);
+        case 7:
+          return _context16.a(2);
+      }
+    }, _callee16, null, [[1, 3]]);
+  }));
+  return _cargarBorrador.apply(this, arguments);
+}
+function cargarDatosEnFormulario(_x5) {
+  return _cargarDatosEnFormulario.apply(this, arguments);
+}
+function _cargarDatosEnFormulario() {
+  _cargarDatosEnFormulario = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee17(datos) {
+    return _regenerator().w(function (_context17) {
+      while (1) switch (_context17.n) {
+        case 0:
+          try {
+            // Limpiar primero
+            estado.secciones = {};
+            estado.fotos = {};
+            renderizarSecciones();
+            if (datos.inspector) document.getElementById('inspector').value = datos.inspector;
+            if (datos.anden) document.getElementById('anden').value = datos.anden;
+            if (datos.turno) document.getElementById('turno').value = datos.turno;
+            if (datos.fecha) document.getElementById('fecha').value = datos.fecha;
+            if (datos.secciones) datos.secciones.forEach(function (s) {
+              if (s.estado) aplicarEstadoSinAvance(s.numero, s.estado);
+              if (s.observacion) {
+                var obs = document.getElementById('obs-' + s.numero);
+                if (obs) obs.value = s.observacion;
+              }
+            });
+            if (datos.fotos) datos.fotos.forEach(function (fGroup) {
+              var secId = fGroup.seccion;
+              estado.fotos[secId] = fGroup.imagenes.map(function (img) {
+                return {
+                  nombre: img.nombre,
+                  base64: 'data:' + img.tipo + ';base64,' + img.datos,
+                  tipo: img.tipo
+                };
+              });
+              renderizarFotos(secId);
+            });
+            actualizarProgreso();
+          } catch (e) {
+            console.error(e);
+          }
+        case 1:
+          return _context17.a(2);
+      }
+    }, _callee17);
+  }));
+  return _cargarDatosEnFormulario.apply(this, arguments);
+}
 function aplicarEstadoSinAvance(secId, valor) {
   estado.secciones[secId] = valor;
-  const opciones = document.querySelectorAll(`#sec-${secId} .opcion-estado`);
-  opciones.forEach(op => op.classList.remove('seleccionada'));
-  const mapa = { 'Conforme': 0, 'No Conforme': 1, 'No Aplica': 2 };
+  var opciones = document.querySelectorAll("#sec-".concat(secId, " .opcion-estado"));
+  opciones.forEach(function (op) {
+    return op.classList.remove('seleccionada');
+  });
+  var mapa = {
+    'Conforme': 0,
+    'No Conforme': 1,
+    'No Aplica': 2
+  };
   if (opciones[mapa[valor]]) opciones[mapa[valor]].classList.add('seleccionada');
-  var elSec = document.getElementById(`sec-${secId}`);
+  var elSec = document.getElementById("sec-".concat(secId));
   if (elSec) elSec.classList.add('completada');
-  const num = document.getElementById(`num-${secId}`);
+  var num = document.getElementById("num-".concat(secId));
   if (num) num.textContent = '✓';
 }
 
-//  RECOPILACIÓN DE DATOS 
+// ─── RECOPILACIÓN DE DATOS ────────────────────────────────────────────────
 function recopilarDatos() {
-  const seccionesMapeadas = SECCIONES.map(s => ({
-    numero: parseInt(s.id), titulo: s.titulo,
-    estado: estado.secciones[s.id] || '',
-    observacion: (document.getElementById(`obs-${s.id}`) || {}).value || ''
-  }));
-  const fotosMapeadas = Object.entries(estado.fotos).map(([secId, listaFotos]) => ({
-    seccion: parseInt(secId),
-    imagenes: listaFotos.map(f => {
-      const partes = f.base64.split(',');
-      return { nombre: f.nombre, datos: partes.length > 1 ? partes[1] : partes[0], tipo: f.tipo };
-    })
-  }));
-  const datos = {
+  var seccionesMapeadas = SECCIONES.map(function (s) {
+    return {
+      numero: parseInt(s.id),
+      titulo: s.titulo,
+      estado: estado.secciones[s.id] || '',
+      observacion: (document.getElementById("obs-".concat(s.id)) || {}).value || ''
+    };
+  });
+  var fotosMapeadas = Object.entries(estado.fotos).map(function (_ref3) {
+    var _ref4 = _slicedToArray(_ref3, 2),
+      secId = _ref4[0],
+      listaFotos = _ref4[1];
+    return {
+      seccion: parseInt(secId),
+      imagenes: listaFotos.map(function (f) {
+        var partes = f.base64.split(',');
+        return {
+          nombre: f.nombre,
+          datos: partes.length > 1 ? partes[1] : partes[0],
+          tipo: f.tipo
+        };
+      })
+    };
+  });
+  var datos = {
     inspector: document.getElementById('inspector').value.trim(),
-    anden:     document.getElementById('anden').value.trim(),
-    turno:     document.getElementById('turno').value,
-    fecha:     document.getElementById('fecha').value,
+    anden: document.getElementById('anden').value.trim(),
+    turno: document.getElementById('turno').value,
+    fecha: document.getElementById('fecha').value,
     timestamp: new Date().toISOString(),
     secciones: seccionesMapeadas,
-    fotos:     fotosMapeadas,
-    total_fotos: fotosMapeadas.reduce((acc, g) => acc + g.imagenes.length, 0)
+    fotos: fotosMapeadas,
+    total_fotos: fotosMapeadas.reduce(function (acc, g) {
+      return acc + g.imagenes.length;
+    }, 0)
   };
-  const correoFijo = CONFIG.CORREO_FIJO.trim();
+  var correoFijo = CONFIG.CORREO_FIJO.trim();
   if (correoFijo) datos.correo_destino = correoFijo;
   return datos;
 }
-
 function formularioTieneContenido(datos) {
   if (datos.inspector || datos.anden || datos.turno) return true;
-  if (datos.secciones.some(s => s.estado || (s.observacion && s.observacion.trim()))) return true;
+  if (datos.secciones.some(function (s) {
+    return s.estado || s.observacion && s.observacion.trim();
+  })) return true;
   if (datos.total_fotos > 0) return true;
   return false;
 }
-
 function validarFormulario(datos) {
-  const errores = [];
+  var errores = [];
   if (!formularioTieneContenido(datos)) errores.push('Agregue al menos un dato antes de enviar');
   if (!CONFIG.POWER_AUTOMATE_URL || CONFIG.POWER_AUTOMATE_URL.includes('PEGA_AQUI')) errores.push('Falta configurar la URL de Power Automate en CONFIG');
   return errores;
 }
 
-// MODAL 
+// ─── MODAL ────────────────────────────────────────────────────────────────
 function abrirModalEnvio() {
-  const datos   = recopilarDatos();
-  const errores = validarFormulario(datos);
-  if (errores.length > 0) { mostrarToast(errores[0], 'error'); return; }
-
-  const resumen = document.getElementById('resumen-envio');
-  const seccionesRespondidas = datos.secciones.filter(s => s.estado || (s.observacion && s.observacion.trim())).length;
-  resumen.innerHTML = `
-    <strong>Resumen de la inspección</strong>
-    ${datos.inspector ? `<div style="font-size:0.78rem;margin-bottom:4px;color:#374151;">Inspector: <strong>${datos.inspector}</strong></div>` : ''}
-    ${datos.anden     ? `<div style="font-size:0.78rem;margin-bottom:8px;color:#374151;">Andén N°: <strong>${datos.anden}</strong></div>` : ''}
-    ${datos.secciones.map(s => {
-      const respondida = s.estado || (s.observacion && s.observacion.trim());
-      const fotoEnc = datos.fotos.find(f => f.seccion === s.numero);
-      const fotosSec = (fotoEnc && fotoEnc.imagenes.length) || 0;
-      let detalle = 'Sin registrar';
-      if (s.estado) detalle = s.estado;
-      else if (s.observacion && s.observacion.trim()) detalle = 'Solo observación';
-      if (fotosSec > 0) detalle += ` · ${fotosSec} foto(s)`;
-      return `
-      <div class="item-cola">
-        <span style="color:#374151;">${s.numero}. ${s.titulo.substring(0,38)}…</span>
-        <span class="estado-cola ${s.estado === 'Conforme' ? 'enviado' : s.estado === 'No Conforme' ? '' : 'pendiente'}"
-          style="${s.estado === 'No Conforme' ? 'color:var(--rojo);' : ''}${!respondida ? 'color:var(--gris);font-weight:400;' : ''}">
-          ${detalle}
-        </span>
-      </div>`;
-    }).join('')}
-    <div style="margin-top:10px;font-size:0.72rem;color:var(--gris);padding-top:8px;border-top:1px solid var(--borde);">
-      Secciones con datos: ${seccionesRespondidas} de ${datos.secciones.length} &nbsp;·&nbsp; Fotos adjuntas: ${datos.total_fotos}
-    </div>`;
-
-  const online  = navigator.onLine;
-  const btnOk   = document.getElementById('btn-confirmar-envio');
+  var datos = recopilarDatos();
+  var errores = validarFormulario(datos);
+  if (errores.length > 0) {
+    mostrarToast(errores[0], 'error');
+    return;
+  }
+  var resumen = document.getElementById('resumen-envio');
+  var seccionesRespondidas = datos.secciones.filter(function (s) {
+    return s.estado || s.observacion && s.observacion.trim();
+  }).length;
+  resumen.innerHTML = "\n    <strong>Resumen de la inspecci\xF3n</strong>\n    ".concat(datos.inspector ? "<div style=\"font-size:0.78rem;margin-bottom:4px;color:#374151;\">Inspector: <strong>".concat(datos.inspector, "</strong></div>") : '', "\n    ").concat(datos.anden ? "<div style=\"font-size:0.78rem;margin-bottom:8px;color:#374151;\">And\xE9n N\xB0: <strong>".concat(datos.anden, "</strong></div>") : '', "\n    ").concat(datos.secciones.map(function (s) {
+    var respondida = s.estado || s.observacion && s.observacion.trim();
+    var fotoEnc = datos.fotos.find(function (f) {
+      return f.seccion === s.numero;
+    });
+    var fotosSec = fotoEnc && fotoEnc.imagenes.length || 0;
+    var detalle = 'Sin registrar';
+    if (s.estado) detalle = s.estado;else if (s.observacion && s.observacion.trim()) detalle = 'Solo observación';
+    if (fotosSec > 0) detalle += " \xB7 ".concat(fotosSec, " foto(s)");
+    return "\n      <div class=\"item-cola\">\n        <span style=\"color:#374151;\">".concat(s.numero, ". ").concat(s.titulo.substring(0, 38), "\u2026</span>\n        <span class=\"estado-cola ").concat(s.estado === 'Conforme' ? 'enviado' : s.estado === 'No Conforme' ? '' : 'pendiente', "\"\n          style=\"").concat(s.estado === 'No Conforme' ? 'color:var(--rojo);' : '').concat(!respondida ? 'color:var(--gris);font-weight:400;' : '', "\">\n          ").concat(detalle, "\n        </span>\n      </div>");
+  }).join(''), "\n    <div style=\"margin-top:10px;font-size:0.72rem;color:var(--gris);padding-top:8px;border-top:1px solid var(--borde);\">\n      Secciones con datos: ").concat(seccionesRespondidas, " de ").concat(datos.secciones.length, " &nbsp;\xB7&nbsp; Fotos adjuntas: ").concat(datos.total_fotos, "\n    </div>");
+  var online = navigator.onLine;
+  var btnOk = document.getElementById('btn-confirmar-envio');
   btnOk.textContent = !online ? 'Guardar en cola' : 'Confirmar envío';
   document.getElementById('modal-envio').classList.add('visible');
 }
-
-function cerrarModal() { document.getElementById('modal-envio').classList.remove('visible'); }
-
-// ENVÍO 
-async function encolarInspeccion(datos) {
-  estado.cola.push({ ...datos, id: Date.now(), estado_envio: 'pendiente' });
-  await persistirCola();
+function cerrarModal() {
+  document.getElementById('modal-envio').classList.remove('visible');
 }
 
-async function enviarFormulario() {
-  cerrarModal();
-  const datos = recopilarDatos();
-  if (!navigator.onLine) {
-    await encolarInspeccion(datos);
-    await Almacen.guardarBorrador(null);
-    reiniciarFormulario(false);
-    mostrarToast('Guardado en cola — puede continuar con otra inspección', 'exito');
+// ─── ENVÍO ────────────────────────────────────────────────────────────────
+function encolarInspeccion(_x6) {
+  return _encolarInspeccion.apply(this, arguments);
+}
+function _encolarInspeccion() {
+  _encolarInspeccion = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee18(datos) {
+    return _regenerator().w(function (_context18) {
+      while (1) switch (_context18.n) {
+        case 0:
+          estado.cola.push(_objectSpread(_objectSpread({}, datos), {}, {
+            id: Date.now(),
+            estado_envio: 'pendiente'
+          }));
+          _context18.n = 1;
+          return persistirCola();
+        case 1:
+          return _context18.a(2);
+      }
+    }, _callee18);
+  }));
+  return _encolarInspeccion.apply(this, arguments);
+}
+function enviarFormulario() {
+  return _enviarFormulario.apply(this, arguments);
+}
+function _enviarFormulario() {
+  _enviarFormulario = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee19() {
+    var datos, ok;
+    return _regenerator().w(function (_context19) {
+      while (1) switch (_context19.n) {
+        case 0:
+          cerrarModal();
+          datos = recopilarDatos();
+          if (navigator.onLine) {
+            _context19.n = 3;
+            break;
+          }
+          _context19.n = 1;
+          return encolarInspeccion(datos);
+        case 1:
+          _context19.n = 2;
+          return Almacen.guardarBorrador(null);
+        case 2:
+          reiniciarFormulario(false);
+          mostrarToast('Guardado en cola — puede continuar con otra inspección', 'exito');
+          return _context19.a(2);
+        case 3:
+          _context19.n = 4;
+          return enviarAhora(datos, {
+            limpiarFormulario: true
+          });
+        case 4:
+          ok = _context19.v;
+          if (ok) {
+            _context19.n = 6;
+            break;
+          }
+          _context19.n = 5;
+          return encolarInspeccion(datos);
+        case 5:
+          reiniciarFormulario(false);
+        case 6:
+          return _context19.a(2);
+      }
+    }, _callee19);
+  }));
+  return _enviarFormulario.apply(this, arguments);
+}
+function enviarAhora(_x7) {
+  return _enviarAhora.apply(this, arguments);
+}
+function _enviarAhora() {
+  _enviarAhora = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee20(datos) {
+    var opciones,
+      _opciones$limpiarForm,
+      limpiarFormulario,
+      btnEnviar,
+      btnConfirmar,
+      mensaje,
+      _args20 = arguments,
+      _t0;
+    return _regenerator().w(function (_context20) {
+      while (1) switch (_context20.p = _context20.n) {
+        case 0:
+          opciones = _args20.length > 1 && _args20[1] !== undefined ? _args20[1] : {};
+          _opciones$limpiarForm = opciones.limpiarFormulario, limpiarFormulario = _opciones$limpiarForm === void 0 ? false : _opciones$limpiarForm;
+          btnEnviar = document.getElementById('btn-enviar');
+          btnConfirmar = document.getElementById('btn-confirmar-envio');
+          btnEnviar.disabled = true;
+          if (btnConfirmar) btnConfirmar.disabled = true;
+          if (limpiarFormulario) mostrarToast('Enviando...', '');
+          _context20.p = 1;
+          _context20.n = 2;
+          return fetch(CONFIG.POWER_AUTOMATE_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(datos)
+          });
+        case 2:
+          if (!limpiarFormulario) {
+            _context20.n = 6;
+            break;
+          }
+          mostrarToast('Inspección enviada correctamente', 'exito');
+          _context20.n = 3;
+          return Almacen.guardarBorrador(null);
+        case 3:
+          if (!(borradorActualId !== null)) {
+            _context20.n = 5;
+            break;
+          }
+          estado.borradores = estado.borradores.filter(function (b) {
+            return b.id !== borradorActualId;
+          });
+          _context20.n = 4;
+          return Almacen.guardarListaBorradores(estado.borradores);
+        case 4:
+          borradorActualId = null;
+        case 5:
+          setTimeout(function () {
+            return reiniciarFormulario(false);
+          }, 1200);
+        case 6:
+          return _context20.a(2, true);
+        case 7:
+          _context20.p = 7;
+          _t0 = _context20.v;
+          console.error('Power Automate Error:', _t0);
+          if (limpiarFormulario) {
+            mensaje = 'Error al enviar — guardado en cola';
+            if (_t0.message.includes('Failed to fetch') || _t0.name === 'TypeError') mensaje = 'Sin conexión o bloqueo CORS. Use la app instalada desde SharePoint/OneDrive.';else if (_t0.message.startsWith('HTTP')) mensaje = _t0.message.slice(0, 120);
+            mostrarToast(mensaje, 'error');
+          }
+          return _context20.a(2, false);
+        case 8:
+          _context20.p = 8;
+          btnEnviar.disabled = false;
+          if (btnConfirmar) btnConfirmar.disabled = false;
+          return _context20.f(8);
+        case 9:
+          return _context20.a(2);
+      }
+    }, _callee20, null, [[1, 7, 8, 9]]);
+  }));
+  return _enviarAhora.apply(this, arguments);
+}
+function intentarEnviarCola() {
+  return _intentarEnviarCola.apply(this, arguments);
+}
+function _intentarEnviarCola() {
+  _intentarEnviarCola = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee21() {
+    var manual,
+      pendientes,
+      enviadas,
+      _i2,
+      _arr,
+      item,
+      payload,
+      ok,
+      _args21 = arguments;
+    return _regenerator().w(function (_context21) {
+      while (1) switch (_context21.n) {
+        case 0:
+          manual = _args21.length > 0 && _args21[0] !== undefined ? _args21[0] : false;
+          if (navigator.onLine) {
+            _context21.n = 1;
+            break;
+          }
+          if (manual) mostrarToast('Sin conexión — la cola se enviará al reconectar', 'error');
+          return _context21.a(2);
+        case 1:
+          pendientes = estado.cola.filter(function (i) {
+            return i.estado_envio === 'pendiente';
+          });
+          if (!(pendientes.length === 0)) {
+            _context21.n = 2;
+            break;
+          }
+          if (manual) mostrarToast('No hay inspecciones pendientes', '');
+          return _context21.a(2);
+        case 2:
+          mostrarToast("Enviando ".concat(pendientes.length, " inspecci\xF3n(es)..."), '');
+          enviadas = 0;
+          _i2 = 0, _arr = _toConsumableArray(pendientes);
+        case 3:
+          if (!(_i2 < _arr.length)) {
+            _context21.n = 6;
+            break;
+          }
+          item = _arr[_i2];
+          payload = _objectSpread({}, item);
+          delete payload.id;
+          delete payload.estado_envio;
+          _context21.n = 4;
+          return enviarAhora(payload, {
+            limpiarFormulario: false
+          });
+        case 4:
+          ok = _context21.v;
+          if (ok) {
+            item.estado_envio = 'enviado';
+            enviadas++;
+          }
+        case 5:
+          _i2++;
+          _context21.n = 3;
+          break;
+        case 6:
+          estado.cola = estado.cola.filter(function (i) {
+            return i.estado_envio === 'pendiente';
+          });
+          _context21.n = 7;
+          return persistirCola();
+        case 7:
+          if (enviadas > 0) mostrarToast("".concat(enviadas, " inspecci\xF3n(es) enviada(s)"), 'exito');else if (manual) mostrarToast('No se pudo enviar la cola — revise la conexión', 'error');
+        case 8:
+          return _context21.a(2);
+      }
+    }, _callee21);
+  }));
+  return _intentarEnviarCola.apply(this, arguments);
+}
+function eliminarDeCola(_x8) {
+  return _eliminarDeCola.apply(this, arguments);
+}
+function _eliminarDeCola() {
+  _eliminarDeCola = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee22(id) {
+    return _regenerator().w(function (_context22) {
+      while (1) switch (_context22.n) {
+        case 0:
+          estado.cola = estado.cola.filter(function (i) {
+            return i.id !== Number(id);
+          });
+          _context22.n = 1;
+          return persistirCola();
+        case 1:
+          mostrarToast('Registro eliminado de la cola', '');
+        case 2:
+          return _context22.a(2);
+      }
+    }, _callee22);
+  }));
+  return _eliminarDeCola.apply(this, arguments);
+}
+function renderizarPanel() {
+  var panel = document.getElementById('cola-panel');
+  var lista = document.getElementById('cola-lista');
+  var pendientes = estado.cola.filter(function (i) {
+    return i.estado_envio === 'pendiente';
+  });
+  var borradores = estado.borradores || [];
+  var hayAlgo = pendientes.length > 0 || borradores.length > 0;
+  if (!hayAlgo) {
+    panel.classList.remove('visible');
+    lista.innerHTML = '';
     return;
   }
-  const ok = await enviarAhora(datos, { limpiarFormulario: true });
-  if (!ok) { await encolarInspeccion(datos); reiniciarFormulario(false); }
-}
-
-async function enviarAhora(datos, opciones = {}) {
-  const { limpiarFormulario = false } = opciones;
-  const btnEnviar    = document.getElementById('btn-enviar');
-  const btnConfirmar = document.getElementById('btn-confirmar-envio');
-  btnEnviar.disabled = true;
-  if (btnConfirmar) btnConfirmar.disabled = true;
-  if (limpiarFormulario) mostrarToast('Enviando...', '');
-  try {
-    const response = await fetch(CONFIG.POWER_AUTOMATE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos)
-    });
-    const textoRespuesta = await response.text();
-    if (!response.ok) throw new Error(`HTTP ${response.status}: ${textoRespuesta || 'sin detalle'}`);
-    if (limpiarFormulario) {
-      mostrarToast('Inspección enviada correctamente', 'exito');
-      await Almacen.guardarBorrador(null);
-      // Eliminar borrador de la lista si había uno activo
-      if (borradorActualId !== null) {
-        estado.borradores = estado.borradores.filter(b => b.id !== borradorActualId);
-        await Almacen.guardarListaBorradores(estado.borradores);
-        borradorActualId = null;
-      }
-      setTimeout(() => reiniciarFormulario(false), 1200);
-    }
-    return true;
-  } catch (e) {
-    console.error('Power Automate Error:', e);
-    if (limpiarFormulario) {
-      let mensaje = 'Error al enviar — guardado en cola';
-      if (e.message.includes('Failed to fetch') || e.name === 'TypeError') mensaje = 'Sin conexión o bloqueo CORS. Use la app instalada desde SharePoint/OneDrive.';
-      else if (e.message.startsWith('HTTP')) mensaje = e.message.slice(0, 120);
-      mostrarToast(mensaje, 'error');
-    }
-    return false;
-  } finally {
-    btnEnviar.disabled = false;
-    if (btnConfirmar) btnConfirmar.disabled = false;
-  }
-}
-
-async function intentarEnviarCola(manual = false) {
-  if (!navigator.onLine) { if (manual) mostrarToast('Sin conexión — la cola se enviará al reconectar', 'error'); return; }
-  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente');
-  if (pendientes.length === 0) { if (manual) mostrarToast('No hay inspecciones pendientes', ''); return; }
-  mostrarToast(`Enviando ${pendientes.length} inspección(es)...`, '');
-  let enviadas = 0;
-  for (const item of [...pendientes]) {
-    const payload = { ...item }; delete payload.id; delete payload.estado_envio;
-    const ok = await enviarAhora(payload, { limpiarFormulario: false });
-    if (ok) { item.estado_envio = 'enviado'; enviadas++; }
-  }
-  estado.cola = estado.cola.filter(i => i.estado_envio === 'pendiente');
-  await persistirCola();
-  if (enviadas > 0) mostrarToast(`${enviadas} inspección(es) enviada(s)`, 'exito');
-  else if (manual)  mostrarToast('No se pudo enviar la cola — revise la conexión', 'error');
-}
-
-async function eliminarDeCola(id) {
-  estado.cola = estado.cola.filter(i => i.id !== Number(id));
-  await persistirCola();
-  mostrarToast('Registro eliminado de la cola', '');
-}
-
-function renderizarPanel() {
-  const panel      = document.getElementById('cola-panel');
-  const lista      = document.getElementById('cola-lista');
-  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente');
-  const borradores = estado.borradores || [];
-  const hayAlgo    = pendientes.length > 0 || borradores.length > 0;
-
-  if (!hayAlgo) { panel.classList.remove('visible'); lista.innerHTML = ''; return; }
   panel.classList.add('visible');
-
-  let html = '';
+  var html = '';
 
   // ── Borradores en progreso ───────────────────────────────
   if (borradores.length > 0) {
-    html += `<div class="panel-seccion-titulo">Borradores guardados</div>`;
-    html += borradores.map(b => {
-      const activo = b.id === borradorActualId ? ' (en edición)' : '';
-      return `<div class="item-cola">
-        <span class="item-cola-label">${b.etiqueta}${activo}</span>
-        <div class="item-cola-btns">
-          <button type="button" class="btn-cola-abrir" data-id="${b.id}">Abrir</button>
-          <button type="button" class="btn-cola-borrar" data-id="${b.id}" data-tipo="borrador">Eliminar</button>
-        </div>
-      </div>`;
+    html += "<div class=\"panel-seccion-titulo\">Borradores guardados</div>";
+    html += borradores.map(function (b) {
+      var activo = b.id === borradorActualId ? ' (en edición)' : '';
+      return "<div class=\"item-cola\">\n        <span class=\"item-cola-label\">".concat(b.etiqueta).concat(activo, "</span>\n        <div class=\"item-cola-btns\">\n          <button type=\"button\" class=\"btn-cola-abrir\" data-id=\"").concat(b.id, "\">Abrir</button>\n          <button type=\"button\" class=\"btn-cola-borrar\" data-id=\"").concat(b.id, "\" data-tipo=\"borrador\">Eliminar</button>\n        </div>\n      </div>");
     }).join('');
   }
 
   // ── Envíos pendientes ────────────────────────────────────
   if (pendientes.length > 0) {
-    html += `<div class="panel-seccion-titulo" style="margin-top:${borradores.length > 0 ? '12px' : '0'}">Envíos pendientes</div>`;
-    html += pendientes.map(item => {
-      const etiqueta = [
-        item.anden       ? 'Andén ' + item.anden : null,
-        item.inspector   || null,
-        item.fecha       ? item.fecha.replace('T', ' ') : null,
-        item.total_fotos ? item.total_fotos + ' foto(s)' : null
-      ].filter(Boolean).join(' · ') || 'Inspección sin título';
-      return `<div class="item-cola">
-        <span class="item-cola-label">${etiqueta}</span>
-        <div class="item-cola-btns">
-          <button type="button" class="btn-cola-borrar" data-id="${item.id}" data-tipo="cola">Quitar</button>
-        </div>
-      </div>`;
+    html += "<div class=\"panel-seccion-titulo\" style=\"margin-top:".concat(borradores.length > 0 ? '12px' : '0', "\">Env\xEDos pendientes</div>");
+    html += pendientes.map(function (item) {
+      var etiqueta = [item.anden ? 'Andén ' + item.anden : null, item.inspector || null, item.fecha ? item.fecha.replace('T', ' ') : null, item.total_fotos ? item.total_fotos + ' foto(s)' : null].filter(Boolean).join(' · ') || 'Inspección sin título';
+      return "<div class=\"item-cola\">\n        <span class=\"item-cola-label\">".concat(etiqueta, "</span>\n        <div class=\"item-cola-btns\">\n          <button type=\"button\" class=\"btn-cola-borrar\" data-id=\"").concat(item.id, "\" data-tipo=\"cola\">Quitar</button>\n        </div>\n      </div>");
     }).join('');
   }
-
   lista.innerHTML = html;
-
-  lista.querySelectorAll('.btn-cola-abrir').forEach(btn => {
-    btn.addEventListener('click', () => abrirBorrador(btn.dataset.id));
+  lista.querySelectorAll('.btn-cola-abrir').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      return abrirBorrador(btn.dataset.id);
+    });
   });
-  lista.querySelectorAll('.btn-cola-borrar').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.dataset.tipo === 'borrador') eliminarBorrador(btn.dataset.id);
-      else eliminarDeCola(btn.dataset.id);
+  lista.querySelectorAll('.btn-cola-borrar').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.dataset.tipo === 'borrador') eliminarBorrador(btn.dataset.id);else eliminarDeCola(btn.dataset.id);
     });
   });
 }
-
 function actualizarBannerCola() {
-  const banner     = document.getElementById('cola-banner');
-  const pendientes = estado.cola.filter(i => i.estado_envio === 'pendiente').length;
-  const online     = navigator.onLine;
+  var banner = document.getElementById('cola-banner');
+  var pendientes = estado.cola.filter(function (i) {
+    return i.estado_envio === 'pendiente';
+  }).length;
+  var online = navigator.onLine;
   if (pendientes > 0) {
     banner.classList.add('visible');
-    document.getElementById('cola-texto').textContent = online
-      ? pendientes + ' envío(s) pendiente(s) — se enviarán automáticamente o use "Enviar cola".'
-      : pendientes + ' inspección(es) guardada(s) localmente — se enviarán al reconectar.';
+    document.getElementById('cola-texto').textContent = online ? pendientes + ' envío(s) pendiente(s) — se enviarán automáticamente o use "Enviar cola".' : pendientes + ' inspección(es) guardada(s) localmente — se enviarán al reconectar.';
   } else if (!online) {
     banner.classList.add('visible');
     document.getElementById('cola-texto').textContent = 'Sin conexión — las inspecciones completadas quedarán en cola local.';
@@ -1496,110 +3496,187 @@ function actualizarBannerCola() {
 }
 
 // ─── REINICIAR FORMULARIO ─────────────────────────────────────────────────
-function reiniciarFormulario(mostrarMensaje = true) {
-  estado.secciones = {}; estado.fotos = {};
+function reiniciarFormulario() {
+  var mostrarMensaje = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  estado.secciones = {};
+  estado.fotos = {};
   borradorActualId = null;
   document.getElementById('inspector').value = '';
   document.getElementById('anden').value = '';
   document.getElementById('turno').value = '';
-  const ahora = new Date();
-  document.getElementById('fecha').value = ahora.toISOString().slice(0,16);
+  var ahora = new Date();
+  document.getElementById('fecha').value = ahora.toISOString().slice(0, 16);
   renderizarSecciones();
   actualizarProgreso();
-  Almacen.guardarBorrador(null).then(actualizarIndicadorAlmacen).catch(() => {});
+  Almacen.guardarBorrador(null).then(actualizarIndicadorAlmacen).catch(function () {});
   if (mostrarMensaje) mostrarToast('Formulario listo para nueva inspección', 'exito');
 }
-
 function confirmarReinicio() {
   if (confirm('¿Reiniciar el formulario? Se perderán los datos no enviados.')) reiniciarFormulario();
 }
 
 // ─── EXPORTAR CSV ─────────────────────────────────────────────────────────
 function exportarCSV() {
-  const datos = recopilarDatos();
-  const filas = [['Inspector', 'Andén', 'Turno', 'Fecha', 'Sección', 'Título', 'Estado', 'Observaciones']];
-  datos.secciones.forEach(s => filas.push([datos.inspector, datos.anden, datos.turno, datos.fecha, s.numero, s.titulo, s.estado, s.observacion]));
-  const csv  = filas.map(f => f.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = `inspeccion_anden_${datos.anden || 'X'}_${(datos.fecha ? datos.fecha.slice(0,10) : '') || 'hoy'}.csv`;
-  a.click(); URL.revokeObjectURL(url);
+  var datos = recopilarDatos();
+  var filas = [['Inspector', 'Andén', 'Turno', 'Fecha', 'Sección', 'Título', 'Estado', 'Observaciones']];
+  datos.secciones.forEach(function (s) {
+    return filas.push([datos.inspector, datos.anden, datos.turno, datos.fecha, s.numero, s.titulo, s.estado, s.observacion]);
+  });
+  var csv = filas.map(function (f) {
+    return f.map(function (v) {
+      return "\"".concat(String(v).replace(/"/g, '""'), "\"");
+    }).join(',');
+  }).join('\n');
+  var blob = new Blob(["\uFEFF" + csv], {
+    type: 'text/csv;charset=utf-8;'
+  });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = "inspeccion_anden_".concat(datos.anden || 'X', "_").concat((datos.fecha ? datos.fecha.slice(0, 10) : '') || 'hoy', ".csv");
+  a.click();
+  URL.revokeObjectURL(url);
   mostrarToast('Archivo CSV descargado', 'exito');
 }
 
 // ─── CONEXIÓN ─────────────────────────────────────────────────────────────
 function actualizarEstadoConexion() {
-  const online = navigator.onLine;
-  const dot    = document.getElementById('status-dot');
-  const txt    = document.getElementById('status-text');
-  if (online) { dot.classList.remove('offline'); txt.textContent = 'En línea'; }
-  else         { dot.classList.add('offline');    txt.textContent = 'Sin conexión'; }
+  var online = navigator.onLine;
+  var dot = document.getElementById('status-dot');
+  var txt = document.getElementById('status-text');
+  if (online) {
+    dot.classList.remove('offline');
+    txt.textContent = 'En línea';
+  } else {
+    dot.classList.add('offline');
+    txt.textContent = 'Sin conexión';
+  }
   actualizarBannerCola();
 }
-
-async function actualizarIndicadorAlmacen() {
-  const textEl = document.getElementById('storage-text');
-  const fillEl = document.getElementById('storage-fill');
-  const wrap   = document.getElementById('storage-wrap');
-  if (!textEl || !fillEl || !(navigator.storage && navigator.storage.estimate)) { if (textEl) textEl.textContent = 'IndexedDB activo'; return; }
-  try {
-    const { usage = 0, quota = 1 } = await navigator.storage.estimate();
-    const pct    = Math.min(100, Math.round((usage / quota) * 100));
-    const usoMB  = (usage / (1024 * 1024)).toFixed(1);
-    const totMB  = (quota  / (1024 * 1024)).toFixed(0);
-    textEl.textContent = `Almacenamiento: ${usoMB} / ${totMB} MB (${pct}%)`;
-    fillEl.style.width = pct + '%';
-    if (wrap) wrap.style.display = 'block';
-    fillEl.classList.remove('warn', 'danger');
-    if (pct >= 85) { fillEl.classList.add('danger'); mostrarToast('Almacenamiento casi lleno — envíe la cola o elimine fotos', 'error'); }
-    else if (pct >= 65) fillEl.classList.add('warn');
-  } catch (_) { if (textEl) textEl.textContent = 'IndexedDB activo'; }
+function actualizarIndicadorAlmacen() {
+  return _actualizarIndicadorAlmacen.apply(this, arguments);
+} // ─── PWA ──────────────────────────────────────────────────────────────────
+function _actualizarIndicadorAlmacen() {
+  _actualizarIndicadorAlmacen = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee23() {
+    var textEl, fillEl, wrap, _yield$navigator$stor, _yield$navigator$stor2, usage, _yield$navigator$stor3, quota, pct, usoMB, totMB, _t1;
+    return _regenerator().w(function (_context23) {
+      while (1) switch (_context23.p = _context23.n) {
+        case 0:
+          textEl = document.getElementById('storage-text');
+          fillEl = document.getElementById('storage-fill');
+          wrap = document.getElementById('storage-wrap');
+          if (!(!textEl || !fillEl || !(navigator.storage && navigator.storage.estimate))) {
+            _context23.n = 1;
+            break;
+          }
+          if (textEl) textEl.textContent = 'IndexedDB activo';
+          return _context23.a(2);
+        case 1:
+          _context23.p = 1;
+          _context23.n = 2;
+          return navigator.storage.estimate();
+        case 2:
+          _yield$navigator$stor = _context23.v;
+          _yield$navigator$stor2 = _yield$navigator$stor.usage;
+          usage = _yield$navigator$stor2 === void 0 ? 0 : _yield$navigator$stor2;
+          _yield$navigator$stor3 = _yield$navigator$stor.quota;
+          quota = _yield$navigator$stor3 === void 0 ? 1 : _yield$navigator$stor3;
+          pct = Math.min(100, Math.round(usage / quota * 100));
+          usoMB = (usage / (1024 * 1024)).toFixed(1);
+          totMB = (quota / (1024 * 1024)).toFixed(0);
+          textEl.textContent = "Almacenamiento: ".concat(usoMB, " / ").concat(totMB, " MB (").concat(pct, "%)");
+          fillEl.style.width = pct + '%';
+          if (wrap) wrap.style.display = 'block';
+          fillEl.classList.remove('warn', 'danger');
+          if (pct >= 85) {
+            fillEl.classList.add('danger');
+            mostrarToast('Almacenamiento casi lleno — envíe la cola o elimine fotos', 'error');
+          } else if (pct >= 65) fillEl.classList.add('warn');
+          _context23.n = 4;
+          break;
+        case 3:
+          _context23.p = 3;
+          _t1 = _context23.v;
+          if (textEl) textEl.textContent = 'IndexedDB activo';
+        case 4:
+          return _context23.a(2);
+      }
+    }, _callee23, null, [[1, 3]]);
+  }));
+  return _actualizarIndicadorAlmacen.apply(this, arguments);
 }
-
-// ─── PWA ──────────────────────────────────────────────────────────────────
-function esModoInstalable() { return location.protocol === 'https:' || location.hostname === 'localhost'; }
-
+function esModoInstalable() {
+  return location.protocol === 'https:' || location.hostname === 'localhost';
+}
 function configurarInstalacionPWA() {
-  const banner = document.getElementById('install-banner');
-  const titulo = document.getElementById('install-titulo');
-  const texto  = document.getElementById('install-texto');
-  const btn    = document.getElementById('btn-instalar');
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredInstallPrompt = e; banner.classList.add('visible');
+  var banner = document.getElementById('install-banner');
+  var titulo = document.getElementById('install-titulo');
+  var texto = document.getElementById('install-texto');
+  var btn = document.getElementById('btn-instalar');
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    banner.classList.add('visible');
     titulo.textContent = 'Instalar aplicación en la tablet';
-    texto.textContent  = 'Agréguelo a la pantalla de inicio para acceso sin internet.';
-    btn.style.display  = 'inline-block';
+    texto.textContent = 'Agréguelo a la pantalla de inicio para acceso sin internet.';
+    btn.style.display = 'inline-block';
   });
-  if (window.matchMedia('(display-mode: standalone)').matches) { banner.classList.remove('visible'); return; }
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    banner.classList.remove('visible');
+    return;
+  }
   if (!esModoInstalable()) return;
   if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
     banner.classList.add('visible');
     titulo.textContent = 'Instalar en iPad / iPhone';
-    texto.textContent  = 'Abra en Safari, pulse Compartir y seleccione "Agregar a pantalla de inicio".';
-    btn.style.display  = 'none';
+    texto.textContent = 'Abra en Safari, pulse Compartir y seleccione "Agregar a pantalla de inicio".';
+    btn.style.display = 'none';
   }
 }
-
-async function instalarApp() {
-  if (!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  await deferredInstallPrompt.userChoice;
-  deferredInstallPrompt = null;
-  document.getElementById('install-banner').classList.remove('visible');
+function instalarApp() {
+  return _instalarApp.apply(this, arguments);
 }
-
+function _instalarApp() {
+  _instalarApp = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee24() {
+    return _regenerator().w(function (_context24) {
+      while (1) switch (_context24.n) {
+        case 0:
+          if (deferredInstallPrompt) {
+            _context24.n = 1;
+            break;
+          }
+          return _context24.a(2);
+        case 1:
+          deferredInstallPrompt.prompt();
+          _context24.n = 2;
+          return deferredInstallPrompt.userChoice;
+        case 2:
+          deferredInstallPrompt = null;
+          document.getElementById('install-banner').classList.remove('visible');
+        case 3:
+          return _context24.a(2);
+      }
+    }, _callee24);
+  }));
+  return _instalarApp.apply(this, arguments);
+}
 function registrarServiceWorker() {
   if (!('serviceWorker' in navigator) || !esModoInstalable()) return;
-  navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('SW:', e));
+  navigator.serviceWorker.register('./sw.js').catch(function (e) {
+    return console.warn('SW:', e);
+  });
 }
 
 // ─── TOAST ──────────────────────────────────────────────────────────────//──
 function mostrarToast(msg, tipo) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast visible ' + tipo;
-  setTimeout(() => t.classList.remove('visible'), 3200);
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast visible ' + tipo;
+  setTimeout(function () {
+    return t.classList.remove('visible');
+  }, 3200);
 }
+
 </script>
 
 </body>
